@@ -5,7 +5,7 @@
   <subtitle><![CDATA[Further road, never stop...]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.chao.lu//"/>
-  <updated>2015-08-08T04:12:22.000Z</updated>
+  <updated>2015-03-19T03:06:47.000Z</updated>
   <id>http://blog.chao.lu//</id>
   
   <author>
@@ -14,28 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://blog.chao.lu/2015/08/08/hello-world/"/>
-    <id>http://blog.chao.lu/2015/08/08/hello-world/</id>
-    <published>2015-08-08T04:12:22.000Z</published>
-    <updated>2015-08-08T04:12:22.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
-    </summary>
-    
-  </entry>
   
   <entry>
     <title><![CDATA[Hive TPC-DS数据集生成]]></title>
@@ -122,7 +100,7 @@ export <span class="constant">DEBUG_SCRIPT</span>=<span class="constant">ON</spa
     <updated>2014-09-21T01:46:32.000Z</updated>
     <content type="html"><![CDATA[<h1 id="What’s_it?">What’s it?</h1><p>UCASThesis is a LaTeX thesis template package for University of Chinese Academy of Sciences in order to<br>make it easy to write thesises for either master or doctor. This template pacagge is derived from the<br>ThuThesis.</p>
 <p>UCASThesis 是中国科学院大学学位论文 LaTeX 模板，支持硕士、博士论文格式。该模板基于清华大学ThuThesis二次开发。<br>本模板目前已经针对中国科学院计算技术研究所的论文模板进行调整，但由于中科院各院所的模板规范并非完全一致，<br>其余院所的同学可能需要进行一些必要的修改。</p>
-<h1 id="版权须知">版权须知</h1><p>Copyright (C) 2005-2013 by Xue Ruini <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#120;&#x75;&#x65;&#114;&#x75;&#x69;&#x6e;&#x69;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#120;&#x75;&#x65;&#114;&#x75;&#x69;&#x6e;&#x69;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>Copyright (C) 2013-2014 derived by Chaolu <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x77;&#x75;&#x63;&#104;&#x61;&#x6f;&#x6c;&#x75;&#x40;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;">&#x77;&#x75;&#x63;&#104;&#x61;&#x6f;&#x6c;&#x75;&#x40;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;</a></p>
+<h1 id="版权须知">版权须知</h1><p>Copyright (C) 2005-2013 by Xue Ruini <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x78;&#x75;&#x65;&#114;&#117;&#105;&#110;&#105;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x78;&#x75;&#x65;&#114;&#117;&#105;&#110;&#105;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a><br>Copyright (C) 2013-2014 derived by Chaolu <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#119;&#x75;&#x63;&#x68;&#97;&#x6f;&#x6c;&#x75;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#119;&#x75;&#x63;&#x68;&#97;&#x6f;&#x6c;&#x75;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></p>
 <p>This file may be distributed and/or modified under the<br>conditions of the LaTeX Project Public License, either version 1.3a<br>of this license or (at your option) any later version.<br>The latest version of this license is in:</p>
 <p><a href="http://www.latex-project.org/lppl.txt" target="_blank" rel="external">http://www.latex-project.org/lppl.txt</a></p>
 <p>and version 1.3a or later is part of all distributions of LaTeX<br>version 2004/10/01 or later.</p>
