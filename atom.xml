@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title><![CDATA[Chaolu's blog]]></title>
+  <subtitle><![CDATA[Further road, never stop...]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog.chao.lu//"/>
+  <updated>2015-08-08T04:12:22.000Z</updated>
+  <id>http://blog.chao.lu//</id>
+  
+  <author>
+    <name><![CDATA[Lu Chao]]></name>
+    <email><![CDATA[me@chao.lu]]></email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://blog.chao.lu/2015/08/08/hello-world/"/>
+    <id>http://blog.chao.lu/2015/08/08/hello-world/</id>
+    <published>2015-08-08T04:12:22.000Z</published>
+    <updated>2015-08-08T04:12:22.000Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hive TPC-DS数据集生成]]></title>
+    <link href="http://blog.chao.lu/2015/03/19/Hive-TPC-DS%E6%95%B0%E6%8D%AE%E9%9B%86%E7%94%9F%E6%88%90/"/>
+    <id>http://blog.chao.lu/2015/03/19/Hive-TPC-DS数据集生成/</id>
+    <published>2015-03-19T03:03:07.000Z</published>
+    <updated>2015-03-19T03:06:47.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="TPC-DS官方">TPC-DS官方</h1><p><a href="http://www.tpc.org/information/current_specifications.asp" target="_blank" rel="external">http://www.tpc.org/information/current_specifications.asp</a></p>
+<h1 id="下载hive-testbench">下载hive-testbench</h1><p>git clone <a href="https://github.com/hortonworks/hive-testbench" target="_blank" rel="external">https://github.com/hortonworks/hive-testbench</a></p>
+<h1 id="自动下载与编译tpc-ds的编译器">自动下载与编译tpc-ds的编译器</h1><pre><code>./tpcds-build.<span class="keyword">sh</span>
+</code></pre><p>此处它会下载TPC-DS的源代码，编译，并初始化metaStore。</p>
+<h1 id="设置环境变量">设置环境变量</h1><pre><code><span class="constant">HIVE_HOME</span>=<span class="regexp">/home/nbtest</span><span class="regexp">/develop/hive</span>-<span class="number">1.0</span>.<span class="number">0</span>/
+export <span class="constant">PATH</span>=<span class="variable">$HIVE_HOME</span>/<span class="symbol">bin:</span><span class="variable">$PATH</span>
+
+<span class="constant">HADOOP_HOME</span>=<span class="regexp">/home/nbtest</span><span class="regexp">/develop/hadoop</span>-<span class="number">2.6</span>.<span class="number">0</span>
+export <span class="constant">PATH</span>=<span class="variable">$HADOOP_HOME</span>/<span class="symbol">bin:</span><span class="variable">$HADOOP_HOME</span>/<span class="symbol">sbin:</span><span class="variable">$PATH</span>
+
+export <span class="constant">DEBUG_SCRIPT</span>=<span class="constant">ON</span>  <span class="comment">#输出生成数据时的日志</span>
+</code></pre><h1 id="生成数据集">生成数据集</h1><p>参见<br>Build 1 TB of TPC-DS data: ./tpcds-setup 1000<br>Build 1 TB of TPC-H data: ./tpch-setup 1000<br>Build 100 TB of TPC-DS data: ./tpcds-setup 100000<br>Build 30 TB of text formatted TPC-DS data: FORMAT=textfile ./tpcds-setup 30000<br>Build 30 TB of RCFile formatted TPC-DS data: FORMAT=rcfile ./tpcds-setup 30000</p>
+<p>如生成2GB的数据集</p>
+<pre><code>./tpcds-setup<span class="class">.sh</span> <span class="number">2</span>
+</code></pre><p>此过程非常漫长，生成text数据之后，会转换24个表至其他格式两遍（共48个hive作业），会生成以下类型的数据库<br>tpcds<em>text</em>${SCALE}   文本型的<br>tpcds_bin<em>partitioned</em>${FORMAT}_${SCALE}  默认ORC</p>
+<p>根据以上数据库命名规则，说明多种格式和大小的数据集是共存存放的，选用不同的数据库，即可切换不同的数据集。</p>
+<h1 id="执行benchmark">执行benchmark</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd sample-queries-tpcds&#10;hive -i testbench.settings&#10;hive&#62; use tpcds_bin_partitioned_orc_1000;&#10;hive&#62; source query55.sql;</span><br></pre></td></tr></table></figure>
+<p>如需自动化执行，可以在此处写如上一个sql脚本，通过hive -d 传递scale等参数，然后再通过外部脚本执行。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="TPC-DS官方">TPC-DS官方</h1><p><a href="http://www.tpc.org/information/current_specifications.asp" target="_blank" rel="external">http://]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[MPI的同步阻塞问题]]></title>
+    <link href="http://blog.chao.lu/2015/03/19/MPI%E7%9A%84%E5%90%8C%E6%AD%A5%E9%98%BB%E5%A1%9E%E9%97%AE%E9%A2%98/"/>
+    <id>http://blog.chao.lu/2015/03/19/MPI的同步阻塞问题/</id>
+    <published>2015-03-19T02:52:38.000Z</published>
+    <updated>2015-04-01T02:21:36.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="问题描述">问题描述</h1><p>MPI的Collective同步操作中（如MPI_Recv,MPI_Win_fence），常会遇到一种情形，即大多数Rank已经完成通信，但由于MPI的同步语义,需要已经完成的Rank需要等待至同步点。但通过查看资源利用率，发现此时等待的进程已经处于100%的CPU资源利用率，即轮询忙等，而非进程Sleep。这种机制会造成以下不便：<br><a id="more"></a></p>
+<ul>
+<li><p>影响Communication和Computing的Overlap：常见的MPI通信应用不太出现这种需求，但是如果你的单个CPU上除了MPI通信外仍需要并发执行计算操作，程序的执行效率会受到影响。</p>
+</li>
+<li><p>影响操作系统执行效率：操作系统面对应用带来的高负荷CPU利用率时，会对系统必要的管理造成额外的时间开销。</p>
+</li>
+<li><p>浪费能源：CPU轮询除了会造成CPU功耗过载，也会导致系统的节电管理失效。</p>
+</li>
+</ul>
+<h1 id="调研结果">调研结果</h1><p>根据Google搜索，查到以下讨论：</p>
+<ul>
+<li><a href="http://lists.mcs.anl.gov/pipermail/mpich-discuss/2007-February/001893.html" target="_blank" rel="external">邮件列表1</a></li>
+<li><a href="http://trac.mpich.org/projects/mpich/ticket/1103" target="_blank" rel="external">邮件列表2</a></li>
+<li><a href="http://lists.mcs.anl.gov/pipermail/mpich-discuss/2011-October/011133.html" target="_blank" rel="external">邮件列表3</a></li>
+<li><a href="http://trac.mpich.org/projects/mpich/ticket/79" target="_blank" rel="external">Issue</a></li>
+</ul>
+<p>根据以上内容可以总结出以下结论：</p>
+<ol>
+<li><p>从7年前，开发者们就意识到nemesis通信设备存在此问题，至今仍未解决（他们还是不感兴趣）。但是开发者门称，nemesis就是为了提高通信效率而故意采用的轮询机制。</p>
+</li>
+<li><p>除了Communication和Computing的Overlap需求，当MPI process数大于当前CPU的核心数（即oversubscription）,也会出现明显的性能下降。</p>
+</li>
+<li><p>根据开发者们的测试，针对计算量较大的应用场景，nemesis不比sock设备快，甚至会在过载的情形下远慢于sock设备。</p>
+</li>
+</ol>
+<h1 id="解决方案">解决方案</h1><p>如果你需要并发执行较大计算量的应用，或进行过载Process的调度，又不需要BLCR之类的检查点技术，让mpich使用sock设备通信，因为sock设备是由系统内核提供的event-based polling，可以在等待时使进程Blocking。</p>
+<p>方法是在configure时添加参数：</p>
+<blockquote>
+<p>–with-device=ch3:sock</p>
+</blockquote>
+<p>然后再进行make install。</p>
+<p>问题解决。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="问题描述">问题描述</h1><p>MPI的Collective同步操作中（如MPI_Recv,MPI_Win_fence），常会遇到一种情形，即大多数Rank已经完成通信，但由于MPI的同步语义,需要已经完成的Rank需要等待至同步点。但通过查看资源利用率，发现此时等待的进程已经处于100%的CPU资源利用率，即轮询忙等，而非进程Sleep。这种机制会造成以下不便：<br>]]>
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[UCASThesis has been released!---A LaTex template for UCAS graduates]]></title>
+    <link href="http://blog.chao.lu/2014/09/21/UCASThesis-has-been-published/"/>
+    <id>http://blog.chao.lu/2014/09/21/UCASThesis-has-been-published/</id>
+    <published>2014-09-21T01:34:27.000Z</published>
+    <updated>2014-09-21T01:46:32.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="What’s_it?">What’s it?</h1><p>UCASThesis is a LaTeX thesis template package for University of Chinese Academy of Sciences in order to<br>make it easy to write thesises for either master or doctor. This template pacagge is derived from the<br>ThuThesis.</p>
+<p>UCASThesis 是中国科学院大学学位论文 LaTeX 模板，支持硕士、博士论文格式。该模板基于清华大学ThuThesis二次开发。<br>本模板目前已经针对中国科学院计算技术研究所的论文模板进行调整，但由于中科院各院所的模板规范并非完全一致，<br>其余院所的同学可能需要进行一些必要的修改。</p>
+<h1 id="版权须知">版权须知</h1><p>Copyright (C) 2005-2013 by Xue Ruini <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#120;&#x75;&#x65;&#114;&#x75;&#x69;&#x6e;&#x69;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#120;&#x75;&#x65;&#114;&#x75;&#x69;&#x6e;&#x69;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>Copyright (C) 2013-2014 derived by Chaolu <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x77;&#x75;&#x63;&#104;&#x61;&#x6f;&#x6c;&#x75;&#x40;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;">&#x77;&#x75;&#x63;&#104;&#x61;&#x6f;&#x6c;&#x75;&#x40;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#111;&#109;</a></p>
+<p>This file may be distributed and/or modified under the<br>conditions of the LaTeX Project Public License, either version 1.3a<br>of this license or (at your option) any later version.<br>The latest version of this license is in:</p>
+<p><a href="http://www.latex-project.org/lppl.txt" target="_blank" rel="external">http://www.latex-project.org/lppl.txt</a></p>
+<p>and version 1.3a or later is part of all distributions of LaTeX<br>version 2004/10/01 or later.</p>
+<h1 id="下载地址">下载地址</h1><p>Github:  <a href="https://github.com/xiaoyao9933/UCASThesis" target="_blank" rel="external">https://github.com/xiaoyao9933/UCASThesis</a></p>
+<h1 id="使用须知">使用须知</h1><ol>
+<li>本模板需使用texlive 2014或以上版本编译。</li>
+<li>确定系统中存在xfig依赖。</li>
+<li>确保系统下存在相应的字体依赖，字体配置可由<br>python zhfonts.py<br>完成各字体的具体选择。</li>
+</ol>
+<h1 id="使用方法">使用方法</h1><ol>
+<li><p>编译示例文档<br>xelatex main<br>bibtex main<br>xelatex main<br>xelatex main</p>
+<p>说明：也可以使用 pdflatex/latex+dvipdfmx 生成文档。</p>
+</li>
+<li><p>编写自己的论文<br>参考示例文档：<br>  main.tex   主控文档<br>  data/      论文具体内容<br>  ref/       参考文献目录<br>  figures/   图片目录</p>
+</li>
+</ol>
+<h1 id="如何升级">如何升级</h1><ol>
+<li>下载新模板并解压缩</li>
+<li>将ucasthesis.cls, ucasthesis.cfg作相应替换即可。</li>
+</ol>
+<h1 id="Makefile_Howto_(by_xiaoyao9933_&amp;_edyfox_&amp;_littleleo)">Makefile Howto (by xiaoyao9933 &amp; edyfox &amp; littleleo)</h1><ol>
+<li><p>获取帮助文档</p>
+<p>make doc   得到 ucasthesis.pdf，帮助文档，里面有详细的说明。</p>
+</li>
+<li><p>生成示例文档</p>
+<p>make thesis</p>
+</li>
+<li><p>生成书脊示例</p>
+<p>make spine</p>
+</li>
+</ol>
+<p>附录： Makefile 命令详解：</p>
+<p>Makefile：</p>
+<pre><code>使用方法：
+
+    <span class="built_in">make</span> [{all|thesis|spine|doc|clean|distclean}] \
+        [METHOD={xelatex|pdflatex|dvipdfmx}] \
+        [TEXI2DVI=&lt;tex2dvi&gt;]
+
+参数说明：
+
+    <span class="built_in">make</span> all       等于 <span class="built_in">make</span> thesis &amp;&amp; <span class="built_in">make</span> spine &amp;&amp; <span class="built_in">make</span> doc；
+    <span class="built_in">make</span> cls       生成模板文件，相当于 <span class="built_in">make</span> -f thesis.mak cls；
+    <span class="built_in">make</span> thesis    生成论文，相当于 <span class="built_in">make</span> -f thesis.mak；
+    <span class="built_in">make</span> spine     生成书脊，相当于 <span class="built_in">make</span> -f spine.mak；
+    <span class="built_in">make</span> doc       生成使用说明书，相当于 <span class="built_in">make</span> -f doc.mak；
+    <span class="built_in">make</span> clean     表示清除除了 pdf 外的所有中间文件和目标文件；
+    <span class="built_in">make</span> distclean 表示清除包括 pdf 在内的所有中间文件和目标文件。
+
+    METHOD 参数用来指定生成 pdf 的方式，
+
+    METHOD=xelatex  表示使用 xelatex 引擎编译生成 pdf；
+    METHOD=pdflatex 表示使用 pdflatex 引擎编译生成 pdf，请确保有相应的cjk字体配置；
+    METHOD=dvipdfmx 表示使用 texi2dvi -&gt; dvipdfmx 的方式生成 pdf，请确保有相应的cjk字体配置；
+
+    如果缺省，则采用 xelatex 方式，同时我也建议只使用该方式编译。
+
+    TEXI2DVI 表示 texi2dvi 实用工具的文件名，该工具的作用是自动重复运行
+    latex 若干遍，直至所有交叉引用都正确为止。在有的发行版中该工具的文件名
+    不叫 texi2dvi，譬如 CTeX 下的这个工具就叫 texify。遇到这种情况你可以在
+    命令行通过 TEXI2DVI=texify 命令指定使用其它的 texi2dvi 工具。
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="What’s_it?">What’s it?</h1><p>UCASThesis is a LaTeX thesis template package for University of Chinese Academy of Sciences in order t]]>
+    </summary>
+    
+      <category term="LaTex" scheme="http://blog.chao.lu/tags/LaTex/"/>
+    
+      <category term="UCAS" scheme="http://blog.chao.lu/tags/UCAS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[永久关闭Hiwifi极路由的网络诊断功能]]></title>
+    <link href="http://blog.chao.lu/2014/09/06/%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%ADHiwifi%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%8A%E6%96%AD%E5%8A%9F%E8%83%BD/"/>
+    <id>http://blog.chao.lu/2014/09/06/永久关闭Hiwifi的网络诊断功能/</id>
+    <published>2014-09-06T14:49:59.000Z</published>
+    <updated>2014-09-06T15:13:13.000Z</updated>
+    <content type="html"><![CDATA[<p>最近在校园网使用极路由1经常出现网络诊断页面，判断是在校园网环境内自定义DNS水土不服。极路由系统提供了关闭网络诊断的功能键，<br>但是很奇葩的事情是，极路由的开发人员竟大费周折为这个开关添加了一个计数器，也就是关闭7天后自动恢复打开。这无疑给校园网用户<br>增添了很多烦恼，我作为擅于折腾的人，自然不允许这种事情发生，那就hack下系统的代码吧。</p>
+<p>由于我的极路由已经root过了，我于是徜徉了一番极路由的文件系统，发现了网络诊断网页的动态页面代码，路径是：</p>
+<blockquote>
+<p>/usr/lib/lua/luci/view/admin_web/system/net_detect_1.htm</p>
+</blockquote>
+<p>这个文件里就是进行网络诊断的地方，源代码太多，我也不想细读，搜索开关按钮的id，速度找到了我关心的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inet_chk_switch</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> request_data = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span>(inet_chk_state == <span class="string">"on"</span>)&#123;</span><br><span class="line">       request_data = &#123;<span class="string">"cmd"</span>:<span class="string">"off"</span>,<span class="string">"timeout"</span>:<span class="number">168</span>&#125;;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(inet_chk_state == <span class="string">"off"</span>)&#123;</span><br><span class="line">       request_data = &#123;<span class="string">"cmd"</span>:<span class="string">"on"</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(request_data != <span class="literal">null</span>)&#123;</span><br><span class="line">        $.getJSON(<span class="string">"&lt;%=luci.dispatcher.build_url("</span>api<span class="string">", "</span>network<span class="string">","</span>inet_chk_switch<span class="string">")%&gt;"</span>,request_data,<span class="function"><span class="keyword">function</span>(<span class="params">rsp</span>)</span><br><span class="line">        </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> msg = rsp.msg;</span><br><span class="line">            <span class="keyword">var</span> code = rsp.code;</span><br><span class="line">            <span class="keyword">var</span> state = rsp.state;</span><br><span class="line">            <span class="keyword">if</span>(code == <span class="number">0</span> || code == <span class="string">"0"</span>)&#123;</span><br><span class="line">                inet_chk_state = request_data.cmd;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               <span class="keyword">if</span>(code == <span class="string">"99999"</span>)&#123;</span><br><span class="line">                alert(<span class="string">"需要登录后才能修改"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            show_inet_chk_switch();</span><br><span class="line">        &#125;)</span><br><span class="line">        .fail(<span class="function"><span class="keyword">function</span>(<span class="params">rsp</span>)</span>&#123;</span><br><span class="line">            show_inet_chk_switch();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显，1217行的timeout的168即为7天的168小时。</p>
+<p>解决方案，自然是删掉这个timeout的key，不知道对应的api会不会设置默认值，有待进一步观察，我估计应该没有。</p>
+<p>另外，你可以删去122行已经写好的7日提示。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近在校园网使用极路由1经常出现网络诊断页面，判断是在校园网环境内自定义DNS水土不服。极路由系统提供了关闭网络诊断的功能键，<br>但是很奇葩的事情是，极路由的开发人员竟大费周折为这个开关添加了一个计数器，也就是关闭7天后自动恢复打开。这无疑给校园网用户<br>增添了很多]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Git 指令学习]]></title>
+    <link href="http://blog.chao.lu/2014/09/04/Git-%E6%8C%87%E4%BB%A4%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://blog.chao.lu/2014/09/04/Git-指令学习/</id>
+    <published>2014-09-04T02:31:05.000Z</published>
+    <updated>2014-09-04T02:39:20.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="常用tips">常用tips</h1><ol>
+<li><p>恢复单一文件</p>
+<blockquote>
+<p>$ git checkout – <file></file></p>
+</blockquote>
+</li>
+<li><p>合并多个commit</p>
+<blockquote>
+<p>$ git rebase -i &lt;不變動的mmit的SHA-1&gt;<br>pick = use commit<br>squash = use commit, but meld into previous commit</p>
+</blockquote>
+</li>
+<li><p>重写当前commit</p>
+<blockquote>
+<p>$ git commit –amend<br>等价于<br>$ git reset –soft HEAD^<br>$ git commit -c ORIG_HEAD</p>
+</blockquote>
+</li>
+<li><p>几种重要的refs<br>.git/refs/</p>
+</li>
+</ol>
+<ul>
+<li>heads  : 各个本地分支当前的最近引用</li>
+<li>remotes ：各远程分支的引用</li>
+<li>tags: 指向commit的引用，相当于commit SHA-1的别名</li>
+<li>HEAD: 记录当前的分支</li>
+</ul>
+<p>指向的对象都是objects</p>
+<ol>
+<li><p>删除远端引用</p>
+<blockquote>
+<p>$ git push origin :branchname</p>
+</blockquote>
+</li>
+<li><p>查看object的元信息</p>
+<blockquote>
+<p>$ git cat-file -p <sha-1></sha-1></p>
+</blockquote>
+</li>
+<li><p>恢复被reset-hard的commit</p>
+<blockquote>
+<p>$ git reflog # 查看真正的ref改动日志<br>$ git log -f # 带ref改动的log日志<br>$ git branch recover-branch <sha-1><br>如果reflog也消失了怎么办？<br>$ git fcsk -full 查看未被引用的objects</sha-1></p>
+</blockquote>
+</li>
+<li><p>移除大尺寸对象</p>
+<blockquote>
+<p>$ git gc # clear to pack<br>$ git verify-pack -v .git/objects/pack/pack-3f8c0…bb.idx | sort -k 3 -n | tail -3<br>$ git rev-list –objects –all | grep 7a9eb2fb<br>$ git filter-branch –index-filter \<br>‘git rm –cached –ignore-unmatch git.tbz2’ – 6df7640^..</p>
+</blockquote>
+</li>
+<li><p>Github免密码登陆<br>除了设置ssh-keygen，还要确保config里的url为git@github.com:xxx</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="常用tips">常用tips</h1><ol>
+<li><p>恢复单一文件</p>
+<blockquote>
+<p>$ git checkout – <file></file></p>
+</blockquote>
+</li>
+<li><p>合并多个commit</]]>
+    </summary>
+    
+      <category term="git" scheme="http://blog.chao.lu/tags/git/"/>
+    
+      <category term="知识积累" scheme="http://blog.chao.lu/categories/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hama，Dryad，Twister]]></title>
+    <link href="http://blog.chao.lu/2014/09/04/Hama,Dryad,Twister/"/>
+    <id>http://blog.chao.lu/2014/09/04/Hama,Dryad,Twister/</id>
+    <published>2014-09-04T02:30:43.000Z</published>
+    <updated>2014-09-04T02:36:09.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="Hama">Hama</h1><ul>
+<li>Hama is a pregel-like distributed computing framework based on BSP.</li>
+<li>Be compatible with existing HDFS cluster, or any FileSystem and Database in the future.</li>
+<li>Be efficient for massive matrix and graph computations using MapReduce and BSP.[1]</li>
+<li>Primitives offered by Hama can be applied to various applications that require matrix and graph computations.[2]</li>
+<li>Hama provides a simple computation engine interface, which can plug in and out Mapreduce, BSP, Dryad freely.[2]</li>
+</ul>
+<p>In order to understand the basic API of Hama, a simple example will help you to understand the concepts of the BSP computing model.<br>This example will estimate the PI value using montecarlo simulation.[3]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Override&#10;   public void bsp(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException, SyncException, InterruptedException &#123;&#10;&#10;     int in = 0, out = 0;&#10;     for (int i = 0; i &#60; iterations; i++) &#123;&#10;       double x = 2.0 * Math.random() - 1.0, y = 2.0 * Math.random() - 1.0;&#10;       if ((Math.sqrt(x * x + y * y) &#60; 1.0)) &#123;&#10;         in++;&#10;       &#125; else &#123;&#10;         out++;&#10;       &#125;&#10;     &#125;&#10;&#10;     double data = 4.0 * (double) in / (double) iterations;&#10;     DoubleMessage estimate = new DoubleMessage(peer.getPeerName(), data);&#10;&#10;     peer.send(masterTask, estimate);&#10;     peer.sync();&#10;   &#125;&#10;&#10;   @Override&#10;   public void setup(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException &#123;&#10;     // Choose one as a master&#10;     this.masterTask = peer.getPeerName(peer.getNumPeers() / 2);&#10;   &#125;&#10;&#10;   public void cleanup(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException &#123;&#10;     if (peer.getPeerName().equals(masterTask)) &#123;&#10;       double pi = 0.0;&#10;       int numPeers = peer.getNumCurrentMessages();&#10;       DoubleMessage received;&#10;       while ((received = (DoubleMessage) peer.getCurrentMessage()) != null) &#123;&#10;         pi += received.getData();&#10;       &#125;&#10;&#10;       pi = pi / numPeers;&#10;       peer&#10;           .write(new Text(&#34;Estimated value of PI is&#34;), new DoubleWritable(pi));&#10;     &#125;&#10;   &#125;&#10; &#125;</span><br></pre></td></tr></table></figure>
+<p>The important steps are:</p>
+<ol>
+<li>Overwrite the bsp method of BSP class.</li>
+<li>Call send(), and communicate the other supersteps.</li>
+<li>Call sync(), and wait for other supersteps to leave the barriers together.</li>
+<li>Call getCurrentMessage() to receive the message.</li>
+</ol>
+<h1 id="Dryad">Dryad</h1><ul>
+<li>Dryad is a general-purpose distributed execution engine for coarse-grain data-parallel applications.</li>
+<li>Dryad applications are driven by the directed acyclic graph(DAG) model.</li>
+<li>DAG’s channels between vertices defines the dataflow of the application, and vertices are sequential programs.</li>
+<li>Scheduling of the computational vertices on the available hardware is handled by the Dryad runtime, without any explicit intervention by the developer of the application or administrator of the network.[4]</li>
+<li>Dryad supports multiple different data transport mechanisms between computation vertices and explicit dataflow graph construction and refinement[5]</li>
+<li>Dryad has built a simpler simpler, higher-level programming abstractions for specific application domains on top of Dryad, and it’s easy to learn.[5]</li>
+<li>Dryad supports a automatic fault-tolerant mechnisms.</li>
+</ul>
+<h1 id="Twister[6]">Twister[6]</h1><ul>
+<li>Distinction on static and variable data</li>
+<li>Configurable long running (cacheable) map/reduce tasks</li>
+<li>Pub/sub messaging based communication/data transfers</li>
+<li>Efficient support for Iterative MapReduce computations (extremely faster than Hadoop or Dryad/DryadLINQ)</li>
+<li>Combine phase to collect all reduce outputs</li>
+<li>Data access via local disks</li>
+<li>Lightweight (~5600 lines of Java code)</li>
+<li>Support for typical MapReduce computations</li>
+<li>Tools to manage data</li>
+</ul>
+<p>Take pagerank for an example:<br>The key code of mapreduce iteration can be listed as below:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;public void driveMapReduce() throws Exception &#123;&#10;long beforeTime = System.currentTimeMillis();&#10;&#10;// JobConfigurations&#10;JobConf jobConf = new JobConf(&#34;pagerank-map-reduce&#34;&#10;+ uuidGen.generateTimeBasedUUID());&#10;&#10;jobConf.setMapperClass(PageRankMapTask.class);&#10;jobConf.setReducerClass(PageRankReduceTask.class);&#10;jobConf.setCombinerClass(PageRankCombiner.class);&#10;jobConf.setNumMapTasks(this.numMapTasks);&#10;jobConf.setNumReduceTasks(this.numReduceTasks);&#10;//jobConf.setFaultTolerance();&#10;&#10;TwisterDriver driver = new TwisterDriver(jobConf);&#10;driver.configureMaps(this.partitionFile);&#10;// divide the static input data for map tasks,&#10;// input data is the adjacency matrix for urls&#10;&#10;DoubleVectorData tmpDvd = new DoubleVectorData();&#10;DoubleVectorData tmpCompressedDvd;&#10;DoubleVectorData newDvd = new DoubleVectorData();&#10;DoubleVectorData newCompressedDvd = new DoubleVectorData();&#10;&#10;double[][] initPageRanks = new double[1][2];&#10;initPageRanks[0][0] = this.numUrls; // the num of all urls&#10;initPageRanks[0][1] = 1.0; // the sum of prob of all urls = 1.0&#10;tmpCompressedDvd = new DoubleVectorData(initPageRanks, 1, 2);&#10;&#10;&#10;double totalError = 0; // the error between current and previous rank values&#10;double tolerance = 1E-8; // the threshold value that determine converge condition&#10;int loopCount = 0;&#10;TwisterMonitor monitor = null;&#10;boolean complete = false;&#10;&#10;while (!complete) &#123;&#10;// start the pagerank map reduce process&#10;monitor = driver.runMapReduceBCast(new BytesValue(tmpCompressedDvd.getBytes()));&#10;monitor.monitorTillCompletion();&#10;newCompressedDvd = ((PageRankCombiner) driver.getCurrentCombiner()).getResults(); // get the result of&#10;newDvd = decompress(newCompressedDvd); // decompress the compressed&#10;tmpDvd = decompress(tmpCompressedDvd);&#10;totalError = getError(tmpDvd, newDvd); // get the difference between&#10;System.out.println(&#34;[log] Error between current and previous rank values:&#34;&#10;+ totalError);&#10;if (totalError &#60; tolerance) &#123;&#10;complete = true;&#10;&#125;&#10;tmpCompressedDvd = newCompressedDvd;&#10;loopCount++;&#10;&#125;&#10;System.out.println(&#34;[log] The error of rank values converged, total loop count:&#34;&#10;+ loopCount);&#10;double timeInSeconds = ((double) (System.currentTimeMillis() - beforeTime)) / 1000;&#10;    .......&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>In this part, for a developer</p>
+<ol>
+<li>A TwisterDriver should be defined.</li>
+<li>Use driver’s runMapReduceBCast() method to run a loop of mapreduce.</li>
+<li>Use  monitorTillCompletion() to synchronize the mapreduce execution.</li>
+<li>Obtain the combiner by using getCurrentCombiner(), then results can be listed.</li>
+<li>Converged condition is implemented by developers manully.</li>
+</ol>
+<p>[1] BSP vs MapReduce<br>[2] Hama: An efficient Matrix Computation with the Mapreduce Framwork.<br>[3] <a href="http://wiki.apache.org/hama/PiEstimator" target="_blank" rel="external">http://wiki.apache.org/hama/PiEstimator</a><br>[4] <a href="http://en.wikipedia.org/wiki/Dryad_(programming" target="_blank" rel="external">http://en.wikipedia.org/wiki/Dryad_(programming</a>)<br>[5] Dryad: Distributed Data-Parallel Programs from Sequential Building Blocks<br>[6] <a href="http://www.iterativemapreduce.org" target="_blank" rel="external">http://www.iterativemapreduce.org</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="Hama">Hama</h1><ul>
+<li>Hama is a pregel-like distributed computing framework based on BSP.</li>
+<li>Be compatible with existing HDF]]>
+    </summary>
+    
+      <category term="Dryad" scheme="http://blog.chao.lu/tags/Dryad/"/>
+    
+      <category term="Hama" scheme="http://blog.chao.lu/tags/Hama/"/>
+    
+      <category term="Twister" scheme="http://blog.chao.lu/tags/Twister/"/>
+    
+      <category term="调研" scheme="http://blog.chao.lu/categories/%E8%B0%83%E7%A0%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello Hexo- 博客迁移]]></title>
+    <link href="http://blog.chao.lu/2014/07/31/Hello-Hexo--%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/"/>
+    <id>http://blog.chao.lu/2014/07/31/Hello-Hexo--博客迁移/</id>
+    <published>2014-07-31T07:33:13.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<p>虽然好久不写这个博客了，之前这个博客一直是WordPress搭建的，但随着使用时间越来越长，WP暴漏的问题也越来越多。我简单在这里列举一下：</p>
+<ul>
+<li><strong>过于臃肿</strong>：wordpress的代码学习成本略高，只是一个博客，为了改动主题代码，不值得。</li>
+<li><strong>动态网站</strong>：LAMP的环境虽不说很复杂，相应的免费主机空间倒也是有很多。只是为了兼顾速度和价钱，挑选合适的host也非常费时费力。在近一年里的时间里，使用的是冯琛师兄租用的主机，该主机性能比较低下，但价格并不便宜。同时由于该主机内存较小，MySQL和Apache中间经常有一个被挤崩溃掉，造成网站无法被访问。</li>
+<li><strong>速度较慢</strong>: 在之前的主机上，访问网页的速度接近5秒，有一部分原因是主机位置的原因，另一部分是解析过程过于复杂。</li>
+<li><strong>MarkDown</strong>：用插件实现后较为复杂，编辑起来实在不够Hack。</li>
+</ul>
+<a id="more"></a>
+<p>由于以上原因，我决定将博客全部静态化，以便网站可以免费的托管在<a href="https://github.com" target="_blank" rel="external">GitHub</a>，关于静态化的网站生成方案，<a href="http://www.staticgen.com" target="_blank" rel="external">StaticGen</a>列出了一些知名的开源静态化网站生成器，其中我对比考虑的几个是：</p>
+<ul>
+<li><a href="http://jekyllrb.com" target="_blank" rel="external">Jekyll</a>： Ruby，Github原生支持，较为成熟，主题比较少，且Github渲染时间间隔过长。</li>
+<li>Octopress： Ruby，Jekyll的增强版，我觉得过于强大了。</li>
+<li>Pelican： Python，不太了解。</li>
+<li><a href="http://hexo.io" target="_blank" rel="external">Hexo</a>： node.js，我很喜欢npm的包管理方式，框架非常简洁，主题风格也很多。</li>
+</ul>
+<p>最终我采用了Hexo方案，主题采用<a href="https://github.com/A-limon/pacman" target="_blank" rel="external">pacman</a>（现在的主题被我个人修改过），托管方式为Github。从此每年只需要交域名费了，服务器的事情全部交给Github解决吧。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>虽然好久不写这个博客了，之前这个博客一直是WordPress搭建的，但随着使用时间越来越长，WP暴漏的问题也越来越多。我简单在这里列举一下：</p>
+<ul>
+<li><strong>过于臃肿</strong>：wordpress的代码学习成本略高，只是一个博客，为了改动主题代码，不值得。</li>
+<li><strong>动态网站</strong>：LAMP的环境虽不说很复杂，相应的免费主机空间倒也是有很多。只是为了兼顾速度和价钱，挑选合适的host也非常费时费力。在近一年里的时间里，使用的是冯琛师兄租用的主机，该主机性能比较低下，但价格并不便宜。同时由于该主机内存较小，MySQL和Apache中间经常有一个被挤崩溃掉，造成网站无法被访问。</li>
+<li><strong>速度较慢</strong>: 在之前的主机上，访问网页的速度接近5秒，有一部分原因是主机位置的原因，另一部分是解析过程过于复杂。</li>
+<li><strong>MarkDown</strong>：用插件实现后较为复杂，编辑起来实在不够Hack。</li>
+</ul>]]>
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://blog.chao.lu/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[有效防止DNS污染的方法一览]]></title>
+    <link href="http://blog.chao.lu/2013/01/22/anti-dns-pollute/"/>
+    <id>http://blog.chao.lu/2013/01/22/anti-dns-pollute/</id>
+    <published>2013-01-21T19:08:34.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>众所周知我们的wall对国内的骨干DNS上做了的污染，导致DNS不能正确解析某些网站的ip地址。有些说，那我们用8.8.8.8吧，其实查询国外的DNS在通过wall的时候，都会被污染。</p>
+<a id="more"></a>
+<h3 id="DNS污染实验">DNS污染实验</h3><p>做个简单实验，实验里的地址去掉/就好了，我还是比较担心我的blog被关键词过滤。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ nslookup g/i/h/u/b.c/o/m <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Server: <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Address: <span class="number">8.8</span>.<span class="number">8.8</span><span class="comment">#53</span></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name: /g/i/t/h/u/b/./c/o//m//</span><br><span class="line">Address: <span class="number">59.24</span>.<span class="number">3.173</span>`</span><br><span class="line">这个返回的<span class="number">59.24</span>.<span class="number">3.173</span>就是一个子虚乌有的ip，被污染了。这是因为UDP方式DNS，被干掉了。</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nslookup -vc g/i/t/h/u/b.c/o/m <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Server: <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Address: <span class="number">8.8</span>.<span class="number">8.8</span><span class="comment">#53</span></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name: g/i/t/h/u/b/./c/o/m/</span><br><span class="line">Address: <span class="number">207.97</span>.<span class="number">227.239</span></span><br></pre></td></tr></table></figure>
+<p>但上面这个查询我们加了一个-vc参数，表示使用TCP连接方式进行查询，可见其返回了正确的结果。</p>
+<h3 id="HTTPS对wall的无视性">HTTPS对wall的无视性</h3><p>由于SSL加密连接的特点，传统的旁路攻击wall对其的破坏性极其微弱。由于旁路的中间人攻击方式除了骚扰之外，并不能完全阻断和某个ip之间的通信。我们假如得到了正确的ip，在https连接的情况下，是可以访问某些网站的。ps:其实wall对https的连接还是有点儿阻碍的，表现在https建立初期连接较慢。</p>
+<p>这个简单的实验法，就是在hosts表里绑定ip。比如刚才的那个github的ip，绑定后，就可以正常上网了。</p>
+<h2 id="方法篇">方法篇</h2><h3 id="Linux下搭建基于TCP通信的本地DNS缓存服务器">Linux下搭建基于TCP通信的本地DNS缓存服务器</h3><p>首先安装pdnsd，建议去<a href="http://members.home.nl/p.a.rombouts/pdnsd/dl.html" target="_blank" rel="external">官网</a>下载最新的source或者二进制文件，ubuntu源里的那个太陈旧了。</p>
+<p>下载后,先<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /etc/pdnsd.conf.sample /etc/pdnsd.conf</span><br></pre></td></tr></table></figure></p>
+<p>再编辑pdnsd.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global &#123;</span><br><span class="line">perm_cache=<span class="number">4096</span>;</span><br><span class="line">cache_dir=”/var/cache/pdnsd”;</span><br><span class="line"><span class="comment"># pid_file = /var/run/pdnsd.pid;</span></span><br><span class="line">run_as=”nobody”;</span><br><span class="line">server_ip = any;</span><br><span class="line">status_ctl = on;</span><br><span class="line">paranoid=on;</span><br><span class="line">query_method=tcp_only; // 仅用TCP查询,这个是最重要的地方</span><br><span class="line">min_ttl=<span class="number">1</span>d; // 把ttl最小时间提升为一天 (<span class="number">1</span> day)，这个可以优化dns查询效率</span><br><span class="line">max_ttl=<span class="number">1</span>w; <span class="comment"># One week.</span></span><br><span class="line">timeout=<span class="number">10</span>; <span class="comment"># Global timeout option (10 seconds).</span></span><br><span class="line">neg_domain_pol=on;</span><br><span class="line">udpbufsize=<span class="number">1024</span>; <span class="comment"># Upper limit on the size of UDP messages.</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># The following section is most appropriate if you have a fixed connection to</span></span><br><span class="line"><span class="comment"># the Internet and an ISP which provides good DNS servers.</span></span><br><span class="line">server &#123;</span><br><span class="line">label= <span class="string">"google dns"</span>;</span><br><span class="line">ip = <span class="number">8.8</span>.<span class="number">8.8</span>, <span class="number">8.8</span>.<span class="number">4.4</span>; <span class="comment"># Put your ISP’s DNS-server address(es) here.</span></span><br><span class="line">timeout=<span class="number">4</span>; <span class="comment"># Server timeout; this may be much shorter</span></span><br><span class="line"><span class="comment"># that the global timeout option.</span></span><br><span class="line">uptest=ping; <span class="comment"># Test if the network interface is active.</span></span><br><span class="line">purge_cache=off; <span class="comment"># Keep stale cache entries in case the ISP’s</span></span><br><span class="line"><span class="comment"># DNS servers go offline.</span></span><br><span class="line">edns_query=no; <span class="comment"># Use EDNS for outgoing queries to allow UDP messages</span></span><br><span class="line"><span class="comment"># larger than 512 bytes. May cause trouble with some</span></span><br><span class="line"><span class="comment"># legacy systems.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的代码引用了<a href="http://kafei.in/archives-2/749.html" target="_blank" rel="external">这篇文章</a></p>
+<p>保存后，用/etc/init.d/pdnsd restart 或者其他的服务控制方式进行重启。</p>
+<p>在本机设置dns为127.0.0.1,或者在其他机子上设置你的ip号，即可完成DNS请求。</p>
+<h3 id="Windows下一劳永逸的强制TCP查询法">Windows下一劳永逸的强制TCP查询法</h3><p><a href="http://www.bingtech.net/wordpress/2011/04/233/" target="_blank" rel="external">这个文章</a>提到的替换dnsapi.dll方法，十分巧妙，十分本土化。我自己还没有对其进行过反汇编，不过用了已经修改过的文件，效果很好。</p>
+<h3 id="过滤UDP污染结果的方法">过滤UDP污染结果的方法</h3><p><a href="http://code.google.com/p/dnsproxycn/" target="_blank" rel="external">dnsproxycn</a>项目，利用了wall的污染结果早到于正确结果的特性，过滤了污染结果。这也是一个很有意思的项目。</p>
+<h3 id="其他方法">其他方法</h3><p><a href="http://www.quakemachinex.com/blog/?p=183" target="_blank" rel="external">PWX-DNS-Proxy 可以强制使用 TCP 查询的 DNS 服务器</a>， 这个方法也是类似linux下的方法，搭建了一个dns缓存。</p>
+<p><a href="http://www.opendns.com/technology/dnscrypt/" target="_blank" rel="external">dnscrypt</a> 这个是opendns搞的加密dns，自从墙升级后，对加密链接的封杀已经愈发凶狠，目前效果已经非常差劲，表现为经常进入unprotected状态</p>
+<h2 id="总结">总结</h2><p>如果在实验室内，供其他人方便使用的话，还是搭建一个本地dns代理服务器比较合适，既可以自由上网，又可以加快dns查询速度，一人操作，全民享福。实际操作中的效果，访问u2b,脸谱,github,google服务等具有ssl的网站都是可以的。其实u2b的高清视频打开速度比优酷快多了。我觉得本方法不叫fan墙，应该是合法穿墙，因为我们想要获得正确的DNS查询是合理的要求，https加密链接也是合理的。</p>
+<p>其实如果推广一下，如果有人用公网ip搭建一个这样的服务器并公布出来就真是造福百姓了。如果未来TCP方法被封了怎么办？其实也不用担心，利用国外vps再搭一层dns代理即可，然后利用ssh把dns端口映射到国内的服务器或本地上建立dns缓存。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="前言">前言</h2><p>众所周知我们的wall对国内的骨干DNS上做了的污染，导致DNS不能正确解析某些网站的ip地址。有些说，那我们用8.8.8.8吧，其实查询国外的DNS在通过wall的时候，都会被污染。</p>]]>
+    
+    </summary>
+    
+      <category term="dns" scheme="http://blog.chao.lu/tags/dns/"/>
+    
+      <category term="tcp" scheme="http://blog.chao.lu/tags/tcp/"/>
+    
+      <category term="污染" scheme="http://blog.chao.lu/tags/%E6%B1%A1%E6%9F%93/"/>
+    
+      <category term="Web与互联网" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Chrome插件Content js对原网页空间中的变量和函数的访问]]></title>
+    <link href="http://blog.chao.lu/2013/01/11/chrome-plugin-content-js-original-js-access/"/>
+    <id>http://blog.chao.lu/2013/01/11/chrome-plugin-content-js-original-js-access/</id>
+    <published>2013-01-11T05:16:55.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="引言">引言</h2><p>昨天在写人人的插件的时候遇到的一个问题，即利用chrome的命令行可以访问的变量（如人人的XN模块），在插件编写时却提示变量未被定义。经过查询 <a href="http://stackoverflow.com/questions/1622145/how-can-i-mimic-greasemonkey-firefoxs-unsafewindow-functionality-in-chrome" target="_blank" rel="external">How can I mimic Greasemonkey/Firefox’s unsafeWindow functionality in Chrome?</a> 这个SoF的帖子，发现是两个环境分离的原因，根据帖子找到了三种解决方式。</p>
+<a id="more"></a>
+<h2 id="方法">方法</h2><p>1 利用DOM将JS代码插入原网页的Head<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">script.innerHTML = <span class="comment">/*Injected JS here*/</span>;</span><br><span class="line"><span class="built_in">document</span>.head.appendChild(script);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>2 利用location.href来插入代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">location.href = <span class="string">"javascript:document.body.setAttribute('data-fp', fp);"</span>;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>3 其实就是利用标准的XSS攻击的方法，利用onload什么的一些事件来执行js代码。</p>
+<p>不管怎么说了，这些方法都是变相的把代码插入到原来的网页中。如果你的js代码较长且有空格，可以用这个网站在线压缩一下js代码 <a href="http://tools.dedecms.com/jscsscompress.html" target="_blank" rel="external">在线JS/CSS压缩</a> 。压缩后的代码可以良好的放入两个单引号的字符串里。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="引言">引言</h2><p>昨天在写人人的插件的时候遇到的一个问题，即利用chrome的命令行可以访问的变量（如人人的XN模块），在插件编写时却提示变量未被定义。经过查询 <a href="http://stackoverflow.com/questions/1622145/how-can-i-mimic-greasemonkey-firefoxs-unsafewindow-functionality-in-chrome">How can I mimic Greasemonkey/Firefox’s unsafeWindow functionality in Chrome?</a> 这个SoF的帖子，发现是两个环境分离的原因，根据帖子找到了三种解决方式。</p>]]>
+    
+    </summary>
+    
+      <category term="chrome" scheme="http://blog.chao.lu/tags/chrome/"/>
+    
+      <category term="js" scheme="http://blog.chao.lu/tags/js/"/>
+    
+      <category term="Web与互联网" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+      <category term="JavaScript" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[人人网清空器 1.1 发布了～]]></title>
+    <link href="http://blog.chao.lu/2013/01/11/renrenclear/"/>
+    <id>http://blog.chao.lu/2013/01/11/renrenclear/</id>
+    <published>2013-01-11T04:48:32.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<p>人人网清空器，该插件可生成一个“清空”按钮在人人导航栏，点击后可以在激活人人清空器的主界面，目前版本可以清空“状态”和“分享”，所有被清空的数据将无法恢复，有需要的朋友们来试试吧，只要你不点最后的确定，就是安全无害的～</p>
+<p>chrome store<a href="https://chrome.google.com/webstore/detail/%E4%BA%BA%E4%BA%BA%E6%B8%85%E7%A9%BA%E5%99%A8/kngpjlcohbhbbdkbkfjgjbamhmbemkjb" target="_blank" rel="external">地址</a> (可能会撞墙)</p>
+<a id="more"></a>
+<p><a href="/images/renrenclear/Screenshot-from-2013-01-11-171344.png"><img src="/images/renrenclear/Screenshot-from-2013-01-11-171344.png" alt=""></a></p>
+<p>虽然这个应用的应用场景还是很奇怪的，我们可以YY几个</p>
+<p>比如你忽然觉得你以前说的话都好naive啊，你怕影响就职面试，HR搜你的人人信息，你怕有人拆你家水表等等。</p>
+<h2 id="吐嘈篇：">吐嘈篇：</h2><ol>
+<li><p>原来发布chrome 开发者还要一次性5美刀。</p>
+</li>
+<li><p>第一次写chrome插件，遇到了很严重的问题，比如在content javascript里调用网页原来的变量和函数就不可行了，我为了想调用人人的XN模块，最后还是在师兄的帮助下用DOM直接往html插了代码才最终解决问题。</p>
+</li>
+</ol>
+<h2 id="ChangeLog:">ChangeLog:</h2><ul>
+<li><p>1.0 版本发布：实现了状态清空功能，小试牛刀～</p>
+</li>
+<li><p>1.1 版本发布：增加了清空器的主界面 ，添加分享的清空功能</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>人人网清空器，该插件可生成一个“清空”按钮在人人导航栏，点击后可以在激活人人清空器的主界面，目前版本可以清空“状态”和“分享”，所有被清空的数据将无法恢复，有需要的朋友们来试试吧，只要你不点最后的确定，就是安全无害的～</p>
+<p>chrome store<a href="https://chrome.google.com/webstore/detail/%E4%BA%BA%E4%BA%BA%E6%B8%85%E7%A9%BA%E5%99%A8/kngpjlcohbhbbdkbkfjgjbamhmbemkjb">地址</a> (可能会撞墙)</p>]]>
+    
+    </summary>
+    
+      <category term="chrome" scheme="http://blog.chao.lu/tags/chrome/"/>
+    
+      <category term="人人" scheme="http://blog.chao.lu/tags/%E4%BA%BA%E4%BA%BA/"/>
+    
+      <category term="插件" scheme="http://blog.chao.lu/tags/%E6%8F%92%E4%BB%B6/"/>
+    
+      <category term="清空" scheme="http://blog.chao.lu/tags/%E6%B8%85%E7%A9%BA/"/>
+    
+      <category term="Web与互联网" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+      <category term="JavaScript" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[用Python做科学计算 (+网络分析)]]></title>
+    <link href="http://blog.chao.lu/2012/10/06/python-sci-computing/"/>
+    <id>http://blog.chao.lu/2012/10/06/python-sci-computing/</id>
+    <published>2012-10-06T09:19:58.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<p>科学计算，花样繁多，各有所长。</p>
+<p>大家一般比较熟悉MATLAB这样的综合科学计算平台，需要符号计算的童鞋可能会使用Mathematica，统计爱好者喜欢R，对性能要求高的可能就直接上C/C++、Fortran 编译+运行（顺带说一句，C/C++用于科学计算的库还是挺多的，比如<a href="http://www.netlib.org/lapack/" target="_blank" rel="external">LAPACK</a>用于线性代数，<a href="http://www.gnu.org/software/gsl/" target="_blank" rel="external">GSL</a>提供复数运算、随机数、微分方程等许多数值算法）。</p>
+<p>那么为什么还要用Python做科学计算呢？笔者觉得主要有以下几个原因：</p>
+<a id="more"></a>
+<ol>
+<li>轻量级。用Python写的科学计算脚本只需要Python解释器和相应的库即可运行，不需要MATLAB那样庞大的平台。</li>
+<li>超强的扩展性。谁让咱爹是Python啊！所以可以相当方便地完成一些其他工具很难搞定的任务，比如把电子邮件的通信抓取下来，表示成网络，统计并绘图（<a href="http://networkx.lanl.gov/examples/graph/unix_email.html" target="_blank" rel="external">here</a>）。用MATLAB、C++搞这个，蛋疼。。</li>
+<li>Interactive. 和MATLAB用起来一个感觉，配合后面提到的 iPython/Spyder，既可以在命令行调戏，也可以写成脚本程序慢慢搞，非常方便。因为做科研往往需要try small ideas，总是编译运行太累人。同时，Python交互式的解释器和良好的错误处理也使得debug更方便</li>
+<li>Free and open source. 这个不用说了，MATLAB还是很贵的（MATLAB有开源的替代品<a href="http://www.gnu.org/software/octave/" target="_blank" rel="external">GNU Octave</a>，但是速度奇慢。听说<a href="http://www.scilab.org/" target="_blank" rel="external">Scilab</a>的功能可以和MATLAB匹敌，而且开源，大家可以试试）</li>
+<li>丰富的库。最基本的两个库是<a href="http://numpy.scipy.org/" target="_blank" rel="external">NumPy</a>和<a href="http://www.scipy.org/" target="_blank" rel="external">SciPy</a>，前者提供一般的数值计算、线性代数功能，后者依赖于前者，实现了更多的科学计算功能。另外本文还会提到用于网络分析的<a href="http://networkx.lanl.gov/" target="_blank" rel="external">NetworkX</a>。还有很多其他的库待大家发掘。    </li>
+<li>漂亮的可视化。<a href="http://matplotlib.org/" target="_blank" rel="external">matplotlib</a>库提供非常强劲的绘图功能，语法与MATLAB相近，但是个人认为比MATLAB画得更好看。</li>
+</ol>
+<h2 id="安装">安装</h2><p>Linux用户安装很简单，很多发行版从源里就可以安装。以笔者使用的Ubuntu为例，键入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install python-numpy python-scipy python-matplotlib ipython python-networkx</span><br></pre></td></tr></table></figure></p>
+<p>就搞定了。如果嫌发行版提供的版本太旧，可以上官网下载安装。追求性能的童鞋还可以自行编译安装。</p>
+<p>另外，Python库还有一个自动下载安装的好方法：使用<a href="http://pypi.python.org/pypi/pip" target="_blank" rel="external">pip</a>，比如输入命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo pip install networkx</span><br></pre></td></tr></table></figure></p>
+<p>就可以乖乖地下载安好。</p>
+<p>Windows用户最好还是从官网一个个下安装包安装。或者，可以使用Enthought一体化的科学计算Python发行版（<a href="http://www.enthought.com/products/epd.php" target="_blank" rel="external">Enthought Python Distribution</a>），里面应有尽有啦。Scipy、Numpy就是Enthought公司赞助的。</p>
+<h2 id="开始使用">开始使用</h2><h3 id="iPython_交互式终端">iPython 交互式终端</h3><p>使用<a href="http://ipython.org/" target="_blank" rel="external">iPython</a>，可以交互式地做科学计算。iPython是一个加载了科学计算包的Python解释器，同时对画图等功能提供更好的支持。</p>
+<p>在Linux，打开终端，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ipython --pylab</span><br></pre></td></tr></table></figure></p>
+<p>就进入iPython的科学计算模式，试试看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: x=linspace(<span class="number">0</span>,<span class="number">2</span>*pi,<span class="number">1000</span>)</span><br><span class="line">In [<span class="number">2</span>]: y=sin(x)</span><br><span class="line">In [<span class="number">3</span>]: plot(x,y,<span class="string">'-k'</span>)</span><br></pre></td></tr></table></figure>
+<p>是不是很像MATLAB呢？</p>
+<p><a href="/images/python-sci-computing/Figure-1_001.png"><img src="/images/python-sci-computing/Figure-1_001.png" alt="使用iPython"></a></p>
+<h3 id="Spyder_开发环境">Spyder 开发环境</h3><p><a href="https://code.google.com/p/spyderlib/" target="_blank" rel="external">Spyder</a>是一个专门用于Python科学计算的IDE，貌似知道的人很少，这里推荐一下。有童鞋可能会问，反正都是Python，用Eclipse这种IDE来写不成么？笔者最早也是用Eclipse写计算的脚本，后来试了试Spyder，顿时感觉方便许多。</p>
+<p><a href="/images/python-sci-computing/Workspace-2_004.png"><img src="/images/python-sci-computing/Workspace-2_004.png" alt="Spyder 截屏"></a> </p>
+<p>Spyder有这些特点：</p>
+<ol>
+<li>内部集成iPython。</li>
+<li>完整的Python编辑器。</li>
+<li>运行时可以监视变量。</li>
+<li><strong>增量式加载，边写边算。</strong></li>
+</ol>
+<p>最后这条描述有些不知所云，但笔者感觉这是Spyder最爽的地方。有多爽呢？我只能说爽如MATLAB（我咋老提MATLAB。。。）</p>
+<p>举个例子，现在我写了个脚本loaddata.py，从文件里读数据，保存在变量data里面。然后，我准备对这个数据画个图，画图的代码写在plotdata.py里面。在Spyder里，先写好loaddata.py，然后F5执行，注意选择”<em>Execute in current Python or IPython interpreter</em>“，于是数据加载进来了；</p>
+<p><img src="/images/python-sci-computing/Run-.temp_.py_001.png" alt="Execute in current Python or IPython interpreter"></p>
+<p>再切换到plotdata.py，F5，图出来了。赫然一条直线，于是突然想做线性回归。这时只需要在Spyder里，新建一个linearReg.py，输入对data变量做线性回归的代码（不用写成函数，脚本就行），按F5即可！也就是说只要保持同一个Interpreter，Spyder里面执行一次，就相当于import一次：如果linearReg运行以后有改动，修改后就再F5；如果数据发生了变化，随时可以切换到loaddata.py，按F5。简单地说，Spyder实现了<strong> Scripting 和 Interactive 两种模式的完美融合</strong>。</p>
+<p>不过熟悉MATLAB的童鞋要注意，<strong>Spyder的加载模式还是不同于MATLAB</strong>。比如说，MATLAB里面写了一个函数文件funxx.m，后来又做了改动，那么下次调用该函数的时候改动就生效了，因为MATLAB每次都重新执行一边funxx.m的<strong>代码</strong>。但是，在Spyder里面修改过funxxLib.py（里面定义了funxx这个函数）以后，要使得改动生效，就必须<strong>按F5加载</strong>到解释器里面去。</p>
+<h3 id="NumPy/SciPy">NumPy/SciPy</h3><p>NumPy/SciPy是Python下面科学计算最常用的库。NumPy提供基本的运算、线性代数、随机数功能，在此基础上，SciPy提供了诸如特殊函数、微积分、优化、Fourier变换等功能。</p>
+<p>如果熟悉MATLAB等操作向量、矩阵的语言，上手会很容易：</p>
+<ol>
+<li>先从官网的NumPy教程开始：[Tentative NumPy Tutorial](<a href="http://www.scipy.org/Tentative_NumPy_Tutorial" target="_blank" rel="external">http://www.scipy.org/Tentative_NumPy_Tutorial</a></li>
+<li>然后弄清楚MATLAB和NumPy有哪些异同：<a href="http://www.scipy.org/NumPy_for_Matlab_Users" target="_blank" rel="external">NumPy for Matlab Users</a></li>
+<li>大概看看SciPy提供了哪些功能：<a href="http://docs.scipy.org/doc/scipy/reference/tutorial/" target="_blank" rel="external">http://docs.scipy.org/doc/scipy/reference/tutorial/</a>    </li>
+<li>然后就在用中学啦，不明白的地方看文档即可（Spyder集成了便捷的help），just like this:</li>
+</ol>
+<p><a href="/images/python-sci-computing/怎样画马1.jpg"><img src="/images/python-sci-computing/怎样画马1.jpg" alt=""></a></p>
+<p>这个页面上有很多值得参考的资料：<a href="http://www.scipy.org/Additional_Documentation?action=show&amp;redirect=Documentation" target="_blank" rel="external">Additional Documentation for SciPy/NumPy</a>.</p>
+<h3 id="用matplotlib绘图">用matplotlib绘图</h3><p>笔者是个绘图控+排版控，科研和大作业约有一半的动力来自于画出漂亮的图、排出漂亮的文档。LaTeX当然是学术排版的不二之选，而绘图就是open question了。笔者为此试过很多软件，屡试也不爽，但matplotlib令我满意，尤其和Python的计算功能相得益彰。</p>
+<p>笔者方才打开<a href="http://matplotlib.org/" target="_blank" rel="external">matplotlib</a>官网，看到了matplotlib作者因癌症与世长辞的消息，不禁惋惜。</p>
+<p>matplotlib做图是靠Scripting的，不能直接在图上拖来拖去，但语法和MATLAB非常相似（不得不说，MATLAB做图的一套语法设计得相当好。笔者试过gnuplot，蛋疼而知返；Mathematica做图命令，方括弧里冗长的配置也每每令笔者困惑）。</p>
+<p>通过下面这个例子，读者应该可以对用matplotlib编程绘图有直观的印象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np <span class="keyword">from</span> scipy.stats</span><br><span class="line"><span class="keyword">import</span> norm <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt <span class="comment"># many people favor this fashion from matplotlib.patches </span></span><br><span class="line"><span class="keyword">import</span> Polygon </span><br><span class="line">x = np.linspace(-<span class="number">5</span>,<span class="number">5</span>,<span class="number">200</span>) </span><br><span class="line">y = norm.pdf(x, ) </span><br><span class="line">x2 = np.linspace(-<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>) </span><br><span class="line">y2 = norm.pdf(x2, ) </span><br><span class="line">x3 = np.linspace(-<span class="number">2</span>,<span class="number">2</span>,<span class="number">100</span>)</span><br><span class="line">y3 = norm.pdf(x3, ) </span><br><span class="line">vertices = [(-<span class="number">2</span>,<span class="number">0</span>)] + zip(x3, y3) + [(<span class="number">2</span>,<span class="number">0</span>)] </span><br><span class="line">poly = Polygon(vertices, facecolor = <span class="string">'orange'</span>, edgecolor = <span class="string">'k'</span>) </span><br><span class="line">fig = plt.figure(figsize=(<span class="number">5</span>,<span class="number">5</span>)) </span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>) </span><br><span class="line">ax.grid(<span class="keyword">True</span>) </span><br><span class="line">ax.plot(x,y) </span><br><span class="line">ax.plot(x2, y2, <span class="string">'ro'</span>) </span><br><span class="line">ax.add_patch(poly) </span><br><span class="line">ax.set_ylim(<span class="number">0</span>,<span class="number">0.41</span>) </span><br><span class="line">ax.set_xlabel(<span class="string">'x'</span>) </span><br><span class="line">ax.set_ylabel(<span class="string">'y'</span>) </span><br><span class="line">ax.text(<span class="number">0.7</span>,<span class="number">0.36</span>,<span class="string">r"$ \int_&#123;-2\sigma&#125;^&#123;2\sigma&#125;p(x)dx $"</span>) plt.show(fig)</span><br></pre></td></tr></table></figure>
+<p><a href="/images/python-sci-computing/image.png"><img src="/images/python-sci-computing/image.png" alt="matplotlib 绘图示例"></a></p>
+<p>笔者觉得matplotlib画的图比MATLAB更加平滑，而且有更完善的格式支持、数学字体支持。Wikipedia上的<a href="http://commons.wikimedia.org/wiki/Category:Made_with_Matplotlib" target="_blank" rel="external">这个页面</a>展示了一些matplotlib绘制的插图。</p>
+<h3 id="用NetworkX做网络分析">用NetworkX做网络分析</h3><p>网络，数学上就是“图”，是经常会遇到的一种描述数据的方式，常见的有无向图、有向图、二部分图等等。操作和分析网络长久以来依赖于大家自己动手，用C/C++等自己写数据结构和算法，技术高的童鞋则可能会用Boost这样的库，但Boost比较难学而且功能有限。</p>
+<p><a href="http://networkx.lanl.gov/" target="_blank" rel="external">NetworkX</a>是专门用于处理、分析网络的Python库，最初的开发者是大名鼎鼎的 Los Alamos 实验室的两名研究员。NetworkX功能很全面，而且易学易用，直接以点、边、图为对象进行操作，免去了C/C++编程里面莫名奇妙的很多错误。NetworkX给用户的自由度也很大，点可以是任意的对象，点和边可以附带自定义的数据。举个例子，可以创建一个有向网络，节点是电子邮件地址（字符串），一个点到另一个点的边表示前者给后者发过信件，边的权重表示发送信件的数目。写成代码就像这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="comment"># construct a directed graph</span></span><br><span class="line">G = nx.DiGraph()</span><br><span class="line"><span class="comment"># add email addresses as nodes</span></span><br><span class="line"><span class="keyword">for</span> emailAddress <span class="keyword">in</span> emailAddressList:</span><br><span class="line">G.add_node(emailAddress)</span><br><span class="line"><span class="comment"># add edges</span></span><br><span class="line"><span class="keyword">for</span> emailAdd1, emailAdd2 <span class="keyword">in</span> emailCommunications:</span><br><span class="line">	G.add_edge(emailAdd1, emailAdd2, weight = mailNumber(emailAdd1, emailAdd2))</span><br></pre></td></tr></table></figure>
+<p>NetworkX还有以下特点：</p>
+<ol>
+<li>实现了关于网络的很多算法，诸如Erdos-Renyi随机图生成、最短路、PageRank等。</li>
+</ol>
+<ol>
+<li>结合GraphViz、matplotlib，对网络进行可视化。需要两步走：先产生一个图的布局（Layout），然后做图。官网的<a href="http://networkx.lanl.gov/gallery.html" target="_blank" rel="external">Gallery</a>里面有漂亮的例子，笔者从中得到不少启示。</li>
+</ol>
+<ol>
+<li>多种格式的输入、输出。由于网络并没有统一的数据格式，NetworkX对主流的一些格式（如Edge list、GEXF、GraphML）都有支持。用NetworkX转换格式很方便。</li>
+</ol>
+<h3 id="Caveat">Caveat</h3><p>用Python做科学计算不可避免地有一些缺陷。最大的缺陷就是速度虽然不慢，但也不够快，尤其计算量巨大时相比与C/C++、Fortran的差距明显。这里就有一个trade-off：怎样平衡开发和计算的时间，比如使用Python会不会在开发上节约了一天，却在计算上多花了三天？当然，合理地用一些 trick 可以大大提高Python做计算的效率，比如向量化、合理的数据结构、用C/C++实现一些性能要求高的模块。</p>
+<p>NetworkX也有这样的问题。我的感觉是，如果网络的规模很大（节点&gt;50万，边&gt;100万），NetworkX在空间和速度上就很吃力了。规模小一些的网络用NetworkX是没有问题的。</p>
+<p>by Richard Kwo,</p>
+<p>thanks, @chaolu for hosting this post</p>
+<p>Oct 7, 2012</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>科学计算，花样繁多，各有所长。</p>
+<p>大家一般比较熟悉MATLAB这样的综合科学计算平台，需要符号计算的童鞋可能会使用Mathematica，统计爱好者喜欢R，对性能要求高的可能就直接上C/C++、Fortran 编译+运行（顺带说一句，C/C++用于科学计算的库还是挺多的，比如<a href="http://www.netlib.org/lapack/">LAPACK</a>用于线性代数，<a href="http://www.gnu.org/software/gsl/">GSL</a>提供复数运算、随机数、微分方程等许多数值算法）。</p>
+<p>那么为什么还要用Python做科学计算呢？笔者觉得主要有以下几个原因：</p>]]>
+    
+    </summary>
+    
+      <category term="科研开发" scheme="http://blog.chao.lu/categories/%E7%A7%91%E7%A0%94%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="计算机科学" scheme="http://blog.chao.lu/categories/%E7%A7%91%E7%A0%94%E5%BC%80%E5%8F%91/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序]]></title>
+    <link href="http://blog.chao.lu/2012/08/11/android-ics-current-running-modify/"/>
+    <id>http://blog.chao.lu/2012/08/11/android-ics-current-running-modify/</id>
+    <published>2012-08-11T05:56:22.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="引言">引言</h2><p>在Android 4.0+的系统里，长按住HOME键，可以激活出“最近任务列表”，非常fashion，手一拽动，程序就会被彻底关闭。本来这个功能非常好，但是对于中国人的使用习惯来说，我们仿佛更适应windows tab或者或者Symbian的任务切换。也就是说我们更喜欢任务界面里显示的都是真正运行的程序，而不是显示很久前已经关闭的最近运行程序，让我们重新花费大量时间去运行。本文将从源代码修改和反汇编修改两种方法，讲解修改。只要理解了程序的源代码，其实修改起来并不难，希望以后Android 4.0的ROM开发者们，都可以采用我这一修改方法，让人们更舒适的使用Android。</p>
+<a id="more"></a>
+<h2 id="源代码分析及修改法">源代码分析及修改法</h2><p>我找到4.0.4的一份<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentsPanelView.java?av=f" target="_blank" rel="external">源代码</a>，在这个主Activity的RecentsPanelView.java类里，我们可以追踪show（）以后的各种调用，其中最明显的一处便是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(<span class="keyword">boolean</span> show, <span class="keyword">boolean</span> animate,</span><br><span class="line">ArrayList recentTaskDescriptions)</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (show) &#123;</span><br><span class="line"><span class="comment">// Need to update list of recent apps before we set visibility so this view's</span></span><br><span class="line">refreshRecentTasksList(recentTaskDescriptions);</span><br></pre></td></tr></table></figure>
+<p>其调用了 <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentsPanelView.java#RecentsPanelView.refreshRecentTasksList%28java.util.ArrayList%29" target="_blank" rel="external">refreshRecentTasksList</a>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshRecentTasksList</span><span class="params">(ArrayList recentTasksList)</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (mRecentTasksDirty) &#123;</span><br><span class="line"><span class="keyword">if</span> (recentTasksList != <span class="keyword">null</span>) &#123;</span><br><span class="line">mRecentTaskDescriptions = recentTasksList;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">mRecentTaskDescriptions = mRecentTasksLoader.getRecentTasks();</span><br><span class="line">&#125;</span><br><span class="line">mListAdapter.notifyDataSetInvalidated();</span><br><span class="line">updateUiElements(getResources().getConfiguration());</span><br><span class="line">mRecentTasksDirty = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法里，其又调用了<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentTasksLoader.java#RecentTasksLoader.getRecentTasks%28%29" target="_blank" rel="external">getRecentTasks()</a>函数在RecentTasksLoader.java中，这就是我们要修改的地方,我简单注释下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// return a snapshot of the current list of recent apps</span></span><br><span class="line"><span class="function">ArrayList <span class="title">getRecentTasks</span><span class="params">()</span> </span>&#123;</span><br><span class="line">cacelLoadingThumbnails();</span><br><span class="line">ArrayList tasks = <span class="keyword">new</span> ArrayList&lt;TaskDescription&gt;();</span><br><span class="line"><span class="keyword">final</span> PackageManager pm = mContext.getPackageManager();</span><br><span class="line"><span class="keyword">final</span> ActivityManager am = (ActivityManager)<span class="comment">//调取服务</span></span><br><span class="line">mContext.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line"><span class="keyword">final</span> List&lt;ActivityManager.RecentTaskInfo&gt; recentTasks =</span><br><span class="line">am.getRecentTasks(MAX_TASKS, ActivityManager.RECENT_IGNORE_UNAVAILABLE);<span class="comment">//调取最近活动列表</span></span><br><span class="line">ActivityInfo homeInfo = <span class="keyword">new</span> Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)</span><br><span class="line">.resolveActivityInfo(pm, <span class="number">0</span>);</span><br><span class="line">HashSet&lt;Integer&gt; recentTasksToKeepInCache = <span class="keyword">new</span> HashSet&lt;Integer&gt;();<span class="comment">//最前端的任务不显示</span></span><br><span class="line"><span class="keyword">int</span> numTasks = recentTasks.size();</span><br><span class="line"><span class="comment">// skip the first task - assume it's either the home screen or the current activity.</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line">recentTasksToKeepInCache.add(recentTasks.get(<span class="number">0</span>).persistentId);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = first, index = <span class="number">0</span>; i &lt; numTasks &amp;&amp; (index &lt; MAX_TASKS); ++i) &#123;<span class="comment">//开始轮询</span></span><br><span class="line"><span class="keyword">final</span> ActivityManager.RecentTaskInfo recentInfo = recentTasks.get(i);<span class="comment">//获取单个taskinfo</span></span><br><span class="line"><span class="comment">//在这里可以添加代码</span></span><br><span class="line">TaskDescription item = createTaskDescription(recentInfo.id,</span><br><span class="line">recentInfo.persistentId, recentInfo.baseIntent,</span><br><span class="line">recentInfo.origActivity, recentInfo.description, homeInfo);</span><br><span class="line"><span class="keyword">if</span> (item != <span class="keyword">null</span>) &#123;</span><br><span class="line">tasks.add(item);</span><br><span class="line">++index;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// when we're not using the TaskDescription cache, we load the thumbnails in the</span></span><br><span class="line"><span class="comment">// background</span></span><br><span class="line">loadThumbnailsInBackground(<span class="keyword">new</span> ArrayList&lt;TaskDescription&gt;(tasks));<span class="comment">//读缩略图</span></span><br><span class="line"><span class="keyword">return</span> tasks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以我们为了剔除掉已经被关闭掉的程序，只需在轮询处加入代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(recentInfo.id＜<span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，我们在这里判断下recentInfo.id的正负，我们知道，不运行的程序，id号会为 -1,我们踢掉这些代码就可以了。</p>
+<h2 id="反编译及回编译法">反编译及回编译法</h2><p>上面修改源代码的方法虽然看似简单，但实际上，很多人也不会编译rom，编起来耗时又多，而且我们也不知道自己的ROM是不是已经被第三方修改过很多了，反汇编法还是比较适合主流。具体反编译工具的使用方法，我只能是简单介绍了，我的是ubuntu环境下，先配置好jre环境（windows下也差不多，配置好java 环境，加个 java+命令就执行了）。下载好baksmali，和smali两个工具,假设程序分别为<a href="http://code.google.com/p/smali/downloads/list" target="_blank" rel="external">baksmali.jar，smali.jar</a>。smali语法参见：<a href="http://www.blogjava.net/midea0978/archive/2012/01/04/367847.html" target="_blank" rel="external">Dalvik opcodes</a>，下面是CM9的改法。</p>
+<ol>
+<li>把手机下的/System/app/SystemUI.apk程序想办法搞到电脑上来，方法很多。</li>
+<li>给baksmali，和smali两个工具赋权，+x就可以了,大概如下chmod +x baksmali.jar    </li>
+<li>对SystemUI.apk解包，用解压工具打开，拖出里面的classes.dex到同一目录。</li>
+<li>反汇编  ./baksmali.jar classes.dex -x -o classes</li>
+<li>打开classes目录下的com/android/systemui/recent/RecentTasksLoader.smali文件</li>
+<li>搜索这段代码 iget v2, v15, Landroid/app/ActivityManager$RecentTaskInfo;-&gt;id:I</li>
+<li>在其下行加入：if-ltz v2, :cond_7c    </li>
+<li>（上面的那个cond_7c是单次循环结束的入口，可能会因机而异，您可以自己搜索：add-int/lit8 v10, v10, 0x1这句，找到入口，替换cond_7c即可）    </li>
+<li>回编译: ./smali.jar classes/ -o classes.dex</li>
+<li>把回编译的classes.dex拖回原来的SystemUI.apk替换即可。</li>
+<li>想办法把SystemUI.apk放回手机，记得赋权rw-r–r-。</li>
+<li>重启手机后，看看彻底关闭一个程序后，是不是任务列表里就没有了，大功告成。</li>
+</ol>
+<h2 id="特殊情况">特殊情况</h2><ol>
+<li>有的ROM天生SystemUI.apk就被分割成odex了，这种apk里是没有classes.dex的，所以你需要根据相关教程将odex合并后再弄</li>
+<li><strong>cm10，也就是JELLY BEAN，4.1.1由于源代码做了较大改动，处理获取任务列表的地方在<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.1.1_r1/com/android/systemui/recent/RecentTasksLoader.java?av=f" target="_blank" rel="external">这里</a>loadTasksInBackground()这个函数里，这也可见JB之所以较顺滑的原因就是，很多任务挪到了背景缓存，背景执行。改的方法类似4.0的，反汇编的方法稍有变动：修改的文件将是 RecentTasksLoader$1.smali ，搜索这句 iget v2, v0, Landroid/app/ActivityManager$RecentTaskInfo;-&gt;id:I ，下面添加这句，if-ltz v2,:cond_e6  。其他都一样。</strong></li>
+</ol>
+<h2 id="终语">终语</h2><p>本文可能不适合新手自己修改，但是可以给rom定制者提供一个好的方法。我下一步的计划是添加一个新的手势，如向上滑动，关闭全部程序，欢迎继续关注我的博客。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="引言">引言</h2><p>在Android 4.0+的系统里，长按住HOME键，可以激活出“最近任务列表”，非常fashion，手一拽动，程序就会被彻底关闭。本来这个功能非常好，但是对于中国人的使用习惯来说，我们仿佛更适应windows tab或者或者Symbian的任务切换。也就是说我们更喜欢任务界面里显示的都是真正运行的程序，而不是显示很久前已经关闭的最近运行程序，让我们重新花费大量时间去运行。本文将从源代码修改和反汇编修改两种方法，讲解修改。只要理解了程序的源代码，其实修改起来并不难，希望以后Android 4.0的ROM开发者们，都可以采用我这一修改方法，让人们更舒适的使用Android。</p>]]>
+    
+    </summary>
+    
+      <category term="android" scheme="http://blog.chao.lu/tags/android/"/>
+    
+      <category term="ics" scheme="http://blog.chao.lu/tags/ics/"/>
+    
+      <category term="反汇编" scheme="http://blog.chao.lu/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/"/>
+    
+      <category term="最近任务" scheme="http://blog.chao.lu/tags/%E6%9C%80%E8%BF%91%E4%BB%BB%E5%8A%A1/"/>
+    
+      <category term="手机移动平台" scheme="http://blog.chao.lu/categories/%E6%89%8B%E6%9C%BA%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%8F%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[我的威锋网发帖索引]]></title>
+    <link href="http://blog.chao.lu/2012/08/07/xiaoyao9933-posts-on-wephone/"/>
+    <id>http://blog.chao.lu/2012/08/07/xiaoyao9933-posts-on-wephone/</id>
+    <published>2012-08-06T17:56:58.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<p>2011年的时候在威锋论坛的时候发过的一些帖子，技术含量不大，但总归是我曾经对ios的一腔热情，虽然自从ios5出来以后就没怎么上过weiphone论坛了，但是这些总算是我的作品，帮助过数不清的人，我总得做个索引。本来有10多个精华帖，但现在看来很多都已过时和没太大意义，就删掉了，下面剩下来的也只有4个了，目前还算是有用与系统版本无关，为了让百度收录博客，这也算是定期发的一个文章来凑数了吧。<br><a id="more"></a></p>
+<ol>
+<li><p>【原创救急教程】当你装了某个cydia插件以后，ipad变成iphone界面，图标小而分散，而程序都打不开时，请大家想起我这篇文章<br><a href="http://bbs.weiphone.com/read.php?tid=1920019&amp;page=1&amp;toread=1#tpc" target="_blank" rel="external"> http://bbs.weiphone.com/read.php?tid=1920019&amp;page=1&amp;toread=1#tpc</a></p>
+</li>
+<li><p>【原创进阶教程】利用wifi将你的ipad文件系统映射为windows里的一个分区，让你高速自由的在电脑上操作ipad数据<br><a href="http://bbs.weiphone.com/read-htm-tid-1923841.html#tpc" target="_blank" rel="external"> http://bbs.weiphone.com/read-htm-tid-1923841.html#tpc</a></p>
+</li>
+<li><p>【剖析ios系统】ipad耗电量的问题，占用内存的问题，越狱对系统影响问题<br><a href="http://bbs.weiphone.com/read.php?tid=1933162&amp;page=1&amp;toread=1#tpc" target="_blank" rel="external"> http://bbs.weiphone.com/read.php?tid=1933162&amp;page=1&amp;toread=1#tpc</a></p>
+</li>
+<li><p>让itunes下载加速的真正办法，转向至香港台湾澳门苹果服务器（<strong>这个文章是让我最欢喜也最伤心的，是当时威锋点击率最高的一篇文章，结果因为不注意版权，让别人拿到去《电脑报》投稿赚稿费去了。不过现在想想也没啥技术含量。。</strong>）<br><a href="http://bbs.weiphone.com/read.php?tid=2397269&amp;page=1&amp;toread=1#tpc" target="_blank" rel="external"> http://bbs.weiphone.com/read.php?tid=2397269&amp;page=1&amp;toread=1#tpc</a></p>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>2011年的时候在威锋论坛的时候发过的一些帖子，技术含量不大，但总归是我曾经对ios的一腔热情，虽然自从ios5出来以后就没怎么上过weiphone论坛了，但是这些总算是我的作品，帮助过数不清的人，我总得做个索引。本来有10多个精华帖，但现在看来很多都已过时和没太大意义，就删掉了，下面剩下来的也只有4个了，目前还算是有用与系统版本无关，为了让百度收录博客，这也算是定期发的一个文章来凑数了吧。<br>]]>
+    
+    </summary>
+    
+      <category term="weiphone" scheme="http://blog.chao.lu/tags/weiphone/"/>
+    
+      <category term="帖子" scheme="http://blog.chao.lu/tags/%E5%B8%96%E5%AD%90/"/>
+    
+      <category term="手机移动平台" scheme="http://blog.chao.lu/categories/%E6%89%8B%E6%9C%BA%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%8F%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[由Win8即将发布想到的，浅谈PC与移动平台的消费者需求]]></title>
+    <link href="http://blog.chao.lu/2012/08/05/see-from-win8/"/>
+    <id>http://blog.chao.lu/2012/08/05/see-from-win8/</id>
+    <published>2012-08-04T18:12:40.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="苹果逆转">苹果逆转</h2><p>自从iPhone横空出世，众企业才将战略从最开始的嗤之以鼻转移到现在的重视移动操作系统。但是不管你们晚不晚，在Android和iOS已经二分天下的情况下，一切盲目直追，显得太晚而且并无创意。如果众多厂家仅仅认为iPhone火热的原因只是电容屏的流畅操作，明显就显得欠缺，而当微软开始着手开发WP7的时候，也考虑欠佳。iPad的出世，自然又是一番天地，其操作系统同样是iOS，不过在应用上和iPhone求同存异，同是iphone程序都可跑，异是分出HD界面，让厂商为iPad重新定做UI。</p>
+<p>所以苹果的定位很明确，Mac OSX 主攻PC平台，iOS主攻移动平台，其Darwin的出身兼具了Unix的安全稳定，又给黑客与Geek们类Unix的开发环境，这对长期与Unix打交道的人们来说，可谓是既陌生又熟悉。</p>
+<a id="more"></a>
+<h2 id="成功的典范">成功的典范</h2><p>不论是iOS，还是Mac OSX,其设计理念都比较明确，笔者粗漏的总结一下：</p>
+<p>1、<strong>低功耗</strong>：低功耗当然与体系结构有关系，苹果对后台进程和程序的运行机制做了很强的限制，iOS上不许程序后台执行，app store严格的审批机制，都确保了低功耗的实现，而低功耗确保了移动平台上的绝对优势，正如同ipad不用关机，Macbook air在windows下性能差强人意。<br>2、<strong>安全性</strong>：沙盒机制，严格的证书签名机制,Darwin内核的安全保障，黑客的不断越狱挑战都保证了苹果基本安全的走势。<br>3、<strong>简单性</strong>：移动平台上追求了极致的简单，不惜牺牲用户的个性化，用户无需知道任何知识。Mac OSX虽然达不到极致的精简，但是毕竟PC用户有更复杂的桌面需求，留了很多个性化空间，但是也不乏从他UI的设计上看到简单的体现。<br>4、<strong>可玩性</strong>：这里不是指游戏好玩，而是指其拓展的空间大，普通用户如果担心系统会出毛病，大可老老实实的用。但目前21世纪，追求个性成为主流时，人们需要其实现更符合意愿的功能，但是苹果不能帮着大家做，因为他做了就是得罪App Store里辛苦的开发者。他们有意识无意识的让黑客们有越狱的可能，一来满足了人们渴望折腾的请求，二来苹果也可以从中吸收很多优秀的越狱程序，为自己系统未来的发展提供方向。<br>5、<strong>高素质的越狱开发支持</strong>：在Saruik的Cydia，还有Mobile Substrate平台下，一个不开源的操作系统下，居然形成了这么完整的一套相互依赖，和谐共存的软件生态环境。Substrate甚至在开发手册里无数次强调，要求开发者注意不要轮询，不要驻留内存，一切动态挂载，动态卸载，这帮黑客完全秉承了乔布斯老先生的愿望，他们的程序甚至更富美感。</p>
+<h2 id="失败的教训">失败的教训</h2><p>2000年以后，是我们看到了IT领域蓬勃的发展，但是我们也看到了众多令人惋惜的失败案例：</p>
+<ol>
+<li><strong>Motorola</strong>：这个公司可谓是大起大落，没有android之前，奄奄一息，抓住Android以后，迅速借助里程碑和Defy重新崛起，但其可恶的不解锁Bootloader,差劲的系统更新节奏，让多少用户重新崩溃，我作为一个拿着Defy机子的人，每天看到Mfunz论坛上多少对摩托罗拉的臭骂，多少Cnbeta上motorola新闻评论里“再买moto我剁手”的评论。是的，他已然飘飘然了，却不见神机HD2，和众多可解BL的HTC们，索尼们的嘲笑。Defy的生命绝不该止于android 2.3！<br>这个教训告诉我们：耐操是最吸引人们的特性，自由是最能延长产品生命和维护品牌效应的武器。</li>
+<li><strong>Nokia</strong>：这个公司的自大不用我说了吧，Cnbeta上基本上是对Nokia一天三唱衰了，不排除木马对Nokia迫害。但是这么悲催的Nokia依然有一款神器N9，目测已经完爆HD2了。<br>这个教训告诉我们：高昂的授权费，封闭而软件又不给力的系统不受欢迎，虽然还是有很多软粉力挺Nokia，但是Nokia已经被WP坑的惨不忍睹了。</li>
+<li><strong>Hp Touchpad</strong>：这个准确来说不是产品的失败，而是惠普的失败，TouchPad应该是平板界第一神器了。web os本来是我最看好和其他两大阵营对决的，奈何，猪一样的决策层。希望web os开源顺利吧。</li>
+</ol>
+<h2 id="消费者的分类">消费者的分类</h2><p>看了我上文对需求的讨论，很容易就可以分出几类消费者了：</p>
+<ol>
+<li>新潮型（能带动消费的用户）：纯粹的弄潮儿，界面越漂亮越happy的类型，他们不是“用”设备的人，而是给别人“看”的，自己除了微薄没什么使用需求。WP设计时考虑最多的，应该就是既满足这类用户小众的优越感，又满足了其视觉上的享受。其特点是，设备出来就买，一个劲的猛夸。iPhone和Galaxy Note可以勉强划入这一行列。</li>
+<li>实用型（大多数用户）：正常使用的消费者，他们更注重稳定，他们能给出中肯的评价。他们有正常的工作需求，对操作的效率和易用性有着一定的要求。他们的选择通常是ios或android。</li>
+<li>Geek型（能带动开发的用户）：通常是工科人的爱好，他们喜欢街机，性价比最高是他们的追求，他们还追求效率，能把机器玩烂，无所不能是他们最高兴的事情。他们的选择通常是ios或android。</li>
+<li>保守型（能长期使用的用户）：这类大多就是我们的家长和企业用户了。待机时间长，稳定，简单，安全是他们的需求。山寨机最满足此条，ios凭借后两者也赢得了不少用户。</li>
+</ol>
+<p><strong>看过上面，知道为什么苹果这么受欢迎了吧，它几乎包容了所有类型的消费者。</strong></p>
+<h3 id="反观微软">反观微软</h3><p>wp7还是我比较能接受的系统，毕竟它目前也基本满足了我上面提到的那些需求，目前最欠缺的就是对GEEK类消费者的拉拢。</p>
+<p>但windows8就不能忍了，四个字，不伦不类，口说无凭，我们看它在消费者眼里看起来是什么样？</p>
+<ol>
+<li><p>不就是个Metro界面嘛，乍一看，是从ios托盘图标式的界面们中脱颖而出，但是仔细分析其操作感觉，均匀铺散，削弱了分类性；图标过多，削弱了简洁性；图标大导致页面过多，来回拖动，削弱了效率；传统桌面和Metro来回切换，迷糊；一个应用，两套程序，浪费了开发者宝贵的时间，用户在工作和娱乐切换间更加复杂。</p>
+</li>
+<li><p>PC用户，永远不会消失的用户，什么消费者最多？实用型，保守型和Geek型啊，他们需要大屏幕，高性能，可扩展性，毕竟PC是摆在桌子上用来工作和游戏的，不是Apple ＴＶ不是平板。您如果坐在办公室里忙着编程或报表，哪里有时间切换到Ｍetro界面的ＱＱ和浏览器啊？要么都用Ｍetro，要么都用桌面，对于效率工作来说，来回切换是不可能的。</p>
+</li>
+<li><p>平板用户：如果是传统只有触屏的平板，那windows8更蛋疼，桌面界面虽然可以用，但是点不到，用过ipad的远程界面的用户可感受一下，水深火热的感觉！！<br>如果是Ｓurface概念的用户，倒是不错，看起来蛮惬意的。但是我不禁要质问，那你为什么不都号召开发者全部只开发Ｍetro界面的啊？是担心大型企业用户的程序无法平滑的迁移到metro界面上？难以想象，微软这个大企业有信心让wp一代不兼容一代，却没信心带领企业开发新的界面应用。如果所有的企业程序都开发Ｍetro界面，再配合surface，真的是一种享受。君不知，ipad就有这个魄力，事实说明，随着说来越多的企业开发ipad应用，不是企业不能设计新的开发环境，而是你的设备是否真的稳定，安全，可用。ipad在企业方面投入的力度更大，有个iphone configure tool可以说明。编程环境的问题，ipad上键盘+terminal+vim早就可以实现了！</p>
+</li>
+<li><p>平板用户能否真正的待机长？<br>如果用户只用metro界面的程序，或许可行。但一旦装了xp时代的那些兼容程序，甭想了，当时那些设计者可是准备让那些应用满cpu负荷跑起来的，耗几度电算个啥。让他们改进体系结构变得节电，还不如推倒重新开发一套metro版的环境。</p>
+</li>
+<li><p>政府的安全性如何保障？<br>win8高度集成云服务，政府部门岂是允许你随意上传数据的？这样的系统，政府会去采购？</p>
+</li>
+</ol>
+<h2 id="所以说">所以说</h2><p>win8就是该老实开发你的win8，wp就老实开发你的wp，平板就开发你的wp HD。四不像从来没个好结果，不要担心开发者没魄力转移应用，只要你保证好前后代的兼容性，开发者就会信赖你（如同98,xp,win7的平滑兼容升级，而不是wm-&gt;wp7-&gt;wp8各种坑爹）。</p>
+<p>不过这对Mac OSX，Linux是一个千载难逢的好机会，希望你们把握机会，争夺用户和开发者。ps：我看好win9，或者黑客提供方法可以把metro阉割掉~</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="苹果逆转">苹果逆转</h2><p>自从iPhone横空出世，众企业才将战略从最开始的嗤之以鼻转移到现在的重视移动操作系统。但是不管你们晚不晚，在Android和iOS已经二分天下的情况下，一切盲目直追，显得太晚而且并无创意。如果众多厂家仅仅认为iPhone火热的原因只是电容屏的流畅操作，明显就显得欠缺，而当微软开始着手开发WP7的时候，也考虑欠佳。iPad的出世，自然又是一番天地，其操作系统同样是iOS，不过在应用上和iPhone求同存异，同是iphone程序都可跑，异是分出HD界面，让厂商为iPad重新定做UI。</p>
+<p>所以苹果的定位很明确，Mac OSX 主攻PC平台，iOS主攻移动平台，其Darwin的出身兼具了Unix的安全稳定，又给黑客与Geek们类Unix的开发环境，这对长期与Unix打交道的人们来说，可谓是既陌生又熟悉。</p>]]>
+    
+    </summary>
+    
+      <category term="android" scheme="http://blog.chao.lu/tags/android/"/>
+    
+      <category term="ios" scheme="http://blog.chao.lu/tags/ios/"/>
+    
+      <category term="win8" scheme="http://blog.chao.lu/tags/win8/"/>
+    
+      <category term="IT畅谈" scheme="http://blog.chao.lu/categories/IT%E7%95%85%E8%B0%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Ubuntu下Apache2的mod_rewrite模块的开启]]></title>
+    <link href="http://blog.chao.lu/2012/08/02/ubuntu-apache2-mod_rewrite_start/"/>
+    <id>http://blog.chao.lu/2012/08/02/ubuntu-apache2-mod_rewrite_start/</id>
+    <published>2012-08-02T06:06:55.000Z</published>
+    <updated>2014-09-04T02:03:47.000Z</updated>
+    <content type="html"><![CDATA[<p>今天在Ubuntu主机上想搭建Yourls的短地址服务，前面都很顺利，最后却遇到缩短URL不能解析的问题，想来想去就是mod_rewrite模块没开启的原因，解决方法虽然不难，但是<a href="http://www.php100.com/html/webkaifa/apache/2010/0228/4006.html" target="_blank" rel="external">目前网络上给出的方法</a>不知道是太旧了，还只是Ubuntu的发行版下结构变化，ubuntu下的httpd.conf早就是空的了。Apache2的官网文档里估计也写了模块如何开启，我在这里写出来方便大家以后遇到此问题时可以迅速解决吧，<strong>可能仅适用于Ubuntu</strong>。</p>
+<a id="more"></a>
+<h2 id="mod_rewrite模块简介">mod_rewrite模块简介</h2><p>按照<a href="http://en.wikipedia.org/wiki/Rewrite_engine" target="_blank" rel="external">维基百科</a>的说法，mod_rewrite是<a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html" target="_blank" rel="external">Apache2</a>基于正则表达式将静态地址转化动态地址的模块。是短地址缩短服务里最重要的技术，如可将chao.lu/1映射为chao.lu/query.php?p=1。它的实现本身就是正则表达式的对准和地址解析的映射。</p>
+<h2 id="Ubuntu下解决方法">Ubuntu下解决方法</h2><p>  1.<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/apache2/sites-available/default</span><br></pre></td></tr></table></figure></p>
+<p>  将其中<directory "="" var="" www="">下的一项改为</directory></p>
+<blockquote>
+<p>AllowOverride All</p>
+</blockquote>
+<ol>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln <span class="operator">-s</span> /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>这就可以了。</li>
+</ol>
+<p>实际上WordPress和Yourls不是完全不能在一个目录下，适当的改写正则表达式还是可以兼容的，不过要动动脑筋。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天在Ubuntu主机上想搭建Yourls的短地址服务，前面都很顺利，最后却遇到缩短URL不能解析的问题，想来想去就是mod_rewrite模块没开启的原因，解决方法虽然不难，但是<a href="http://www.php100.com/html/webkaifa/apache/2010/0228/4006.html">目前网络上给出的方法</a>不知道是太旧了，还只是Ubuntu的发行版下结构变化，ubuntu下的httpd.conf早就是空的了。Apache2的官网文档里估计也写了模块如何开启，我在这里写出来方便大家以后遇到此问题时可以迅速解决吧，<strong>可能仅适用于Ubuntu</strong>。</p>]]>
+    
+    </summary>
+    
+      <category term="apache2" scheme="http://blog.chao.lu/tags/apache2/"/>
+    
+      <category term="mod_rewrite" scheme="http://blog.chao.lu/tags/mod-rewrite/"/>
+    
+      <category term="ubuntu" scheme="http://blog.chao.lu/tags/ubuntu/"/>
+    
+      <category term="Web与互联网" scheme="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+  </entry>
+  
+</feed>
