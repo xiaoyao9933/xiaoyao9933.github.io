@@ -1,0 +1,380 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>有效防止DNS污染的方法一览 | Chaolu&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Lu Chao">
+    
+    <meta name="description" content="前言众所周知我们的wall对国内的骨干DNS上做了的污染，导致DNS不能正确解析某些网站的ip地址。有些说，那我们用8.8.8.8吧，其实查询国外的DNS在通过wall的时候，都会被污染。">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Chaolu&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Chaolu&#39;s blog" title="Chaolu&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chaolu&#39;s blog">Chaolu&#39;s blog</a></h1>
+				<h2 class="blog-motto">Further road, never stop...</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.chao.lu">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2013/01/22/anti-dns-pollute/" title="有效防止DNS污染的方法一览" itemprop="url">有效防止DNS污染的方法一览</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.chao.lu" title="Lu Chao">Lu Chao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2013-01-21T19:08:34.000Z" itemprop="datePublished">Jan 22 2013</time>
+    更新日期:<time datetime="2014-09-04T02:03:47.000Z" itemprop="dateModified">Sep 4 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS污染实验"><span class="toc-number">1.1.</span> <span class="toc-text">DNS污染实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS对wall的无视性"><span class="toc-number">1.2.</span> <span class="toc-text">HTTPS对wall的无视性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法篇"><span class="toc-number">2.</span> <span class="toc-text">方法篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux下搭建基于TCP通信的本地DNS缓存服务器"><span class="toc-number">2.1.</span> <span class="toc-text">Linux下搭建基于TCP通信的本地DNS缓存服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows下一劳永逸的强制TCP查询法"><span class="toc-number">2.2.</span> <span class="toc-text">Windows下一劳永逸的强制TCP查询法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤UDP污染结果的方法"><span class="toc-number">2.3.</span> <span class="toc-text">过滤UDP污染结果的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">2.4.</span> <span class="toc-text">其他方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+		</div>
+		
+		<h2 id="前言">前言</h2><p>众所周知我们的wall对国内的骨干DNS上做了的污染，导致DNS不能正确解析某些网站的ip地址。有些说，那我们用8.8.8.8吧，其实查询国外的DNS在通过wall的时候，都会被污染。</p>
+<a id="more"></a>
+<h3 id="DNS污染实验">DNS污染实验</h3><p>做个简单实验，实验里的地址去掉/就好了，我还是比较担心我的blog被关键词过滤。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ nslookup g/i/h/u/b.c/o/m <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Server: <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Address: <span class="number">8.8</span>.<span class="number">8.8</span><span class="comment">#53</span></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name: /g/i/t/h/u/b/./c/o//m//</span><br><span class="line">Address: <span class="number">59.24</span>.<span class="number">3.173</span>`</span><br><span class="line">这个返回的<span class="number">59.24</span>.<span class="number">3.173</span>就是一个子虚乌有的ip，被污染了。这是因为UDP方式DNS，被干掉了。</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nslookup -vc g/i/t/h/u/b.c/o/m <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Server: <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">Address: <span class="number">8.8</span>.<span class="number">8.8</span><span class="comment">#53</span></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name: g/i/t/h/u/b/./c/o/m/</span><br><span class="line">Address: <span class="number">207.97</span>.<span class="number">227.239</span></span><br></pre></td></tr></table></figure>
+<p>但上面这个查询我们加了一个-vc参数，表示使用TCP连接方式进行查询，可见其返回了正确的结果。</p>
+<h3 id="HTTPS对wall的无视性">HTTPS对wall的无视性</h3><p>由于SSL加密连接的特点，传统的旁路攻击wall对其的破坏性极其微弱。由于旁路的中间人攻击方式除了骚扰之外，并不能完全阻断和某个ip之间的通信。我们假如得到了正确的ip，在https连接的情况下，是可以访问某些网站的。ps:其实wall对https的连接还是有点儿阻碍的，表现在https建立初期连接较慢。</p>
+<p>这个简单的实验法，就是在hosts表里绑定ip。比如刚才的那个github的ip，绑定后，就可以正常上网了。</p>
+<h2 id="方法篇">方法篇</h2><h3 id="Linux下搭建基于TCP通信的本地DNS缓存服务器">Linux下搭建基于TCP通信的本地DNS缓存服务器</h3><p>首先安装pdnsd，建议去<a href="http://members.home.nl/p.a.rombouts/pdnsd/dl.html" target="_blank" rel="external">官网</a>下载最新的source或者二进制文件，ubuntu源里的那个太陈旧了。</p>
+<p>下载后,先<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /etc/pdnsd.conf.sample /etc/pdnsd.conf</span><br></pre></td></tr></table></figure></p>
+<p>再编辑pdnsd.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global &#123;</span><br><span class="line">perm_cache=<span class="number">4096</span>;</span><br><span class="line">cache_dir=”/var/cache/pdnsd”;</span><br><span class="line"><span class="comment"># pid_file = /var/run/pdnsd.pid;</span></span><br><span class="line">run_as=”nobody”;</span><br><span class="line">server_ip = any;</span><br><span class="line">status_ctl = on;</span><br><span class="line">paranoid=on;</span><br><span class="line">query_method=tcp_only; // 仅用TCP查询,这个是最重要的地方</span><br><span class="line">min_ttl=<span class="number">1</span>d; // 把ttl最小时间提升为一天 (<span class="number">1</span> day)，这个可以优化dns查询效率</span><br><span class="line">max_ttl=<span class="number">1</span>w; <span class="comment"># One week.</span></span><br><span class="line">timeout=<span class="number">10</span>; <span class="comment"># Global timeout option (10 seconds).</span></span><br><span class="line">neg_domain_pol=on;</span><br><span class="line">udpbufsize=<span class="number">1024</span>; <span class="comment"># Upper limit on the size of UDP messages.</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># The following section is most appropriate if you have a fixed connection to</span></span><br><span class="line"><span class="comment"># the Internet and an ISP which provides good DNS servers.</span></span><br><span class="line">server &#123;</span><br><span class="line">label= <span class="string">"google dns"</span>;</span><br><span class="line">ip = <span class="number">8.8</span>.<span class="number">8.8</span>, <span class="number">8.8</span>.<span class="number">4.4</span>; <span class="comment"># Put your ISP’s DNS-server address(es) here.</span></span><br><span class="line">timeout=<span class="number">4</span>; <span class="comment"># Server timeout; this may be much shorter</span></span><br><span class="line"><span class="comment"># that the global timeout option.</span></span><br><span class="line">uptest=ping; <span class="comment"># Test if the network interface is active.</span></span><br><span class="line">purge_cache=off; <span class="comment"># Keep stale cache entries in case the ISP’s</span></span><br><span class="line"><span class="comment"># DNS servers go offline.</span></span><br><span class="line">edns_query=no; <span class="comment"># Use EDNS for outgoing queries to allow UDP messages</span></span><br><span class="line"><span class="comment"># larger than 512 bytes. May cause trouble with some</span></span><br><span class="line"><span class="comment"># legacy systems.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的代码引用了<a href="http://kafei.in/archives-2/749.html" target="_blank" rel="external">这篇文章</a></p>
+<p>保存后，用/etc/init.d/pdnsd restart 或者其他的服务控制方式进行重启。</p>
+<p>在本机设置dns为127.0.0.1,或者在其他机子上设置你的ip号，即可完成DNS请求。</p>
+<h3 id="Windows下一劳永逸的强制TCP查询法">Windows下一劳永逸的强制TCP查询法</h3><p><a href="http://www.bingtech.net/wordpress/2011/04/233/" target="_blank" rel="external">这个文章</a>提到的替换dnsapi.dll方法，十分巧妙，十分本土化。我自己还没有对其进行过反汇编，不过用了已经修改过的文件，效果很好。</p>
+<h3 id="过滤UDP污染结果的方法">过滤UDP污染结果的方法</h3><p><a href="http://code.google.com/p/dnsproxycn/" target="_blank" rel="external">dnsproxycn</a>项目，利用了wall的污染结果早到于正确结果的特性，过滤了污染结果。这也是一个很有意思的项目。</p>
+<h3 id="其他方法">其他方法</h3><p><a href="http://www.quakemachinex.com/blog/?p=183" target="_blank" rel="external">PWX-DNS-Proxy 可以强制使用 TCP 查询的 DNS 服务器</a>， 这个方法也是类似linux下的方法，搭建了一个dns缓存。</p>
+<p><a href="http://www.opendns.com/technology/dnscrypt/" target="_blank" rel="external">dnscrypt</a> 这个是opendns搞的加密dns，自从墙升级后，对加密链接的封杀已经愈发凶狠，目前效果已经非常差劲，表现为经常进入unprotected状态</p>
+<h2 id="总结">总结</h2><p>如果在实验室内，供其他人方便使用的话，还是搭建一个本地dns代理服务器比较合适，既可以自由上网，又可以加快dns查询速度，一人操作，全民享福。实际操作中的效果，访问u2b,脸谱,github,google服务等具有ssl的网站都是可以的。其实u2b的高清视频打开速度比优酷快多了。我觉得本方法不叫fan墙，应该是合法穿墙，因为我们想要获得正确的DNS查询是合理的要求，https加密链接也是合理的。</p>
+<p>其实如果推广一下，如果有人用公网ip搭建一个这样的服务器并公布出来就真是造福百姓了。如果未来TCP方法被封了怎么办？其实也不用担心，利用国外vps再搭一层dns代理即可，然后利用ssh把dns端口映射到国内的服务器或本地上建立dns缓存。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/dns/">dns</a><a href="/tags/tcp/">tcp</a><a href="/tags/污染/">污染</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web与互联网/">Web与互联网</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.chao.lu/2013/01/22/anti-dns-pollute/" data-title="有效防止DNS污染的方法一览 | Chaolu&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/31/Hello-Hexo--博客迁移/" title="Hello Hexo- 博客迁移">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Hello Hexo- 博客迁移</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2013/01/11/chrome-plugin-content-js-original-js-access/"  title="Chrome插件Content js对原网页空间中的变量和函数的访问">
+ <strong>NEXT:</strong><br/> 
+ <span>Chrome插件Content js对原网页空间中的变量和函数的访问
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS污染实验"><span class="toc-number">1.1.</span> <span class="toc-text">DNS污染实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS对wall的无视性"><span class="toc-number">1.2.</span> <span class="toc-text">HTTPS对wall的无视性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法篇"><span class="toc-number">2.</span> <span class="toc-text">方法篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux下搭建基于TCP通信的本地DNS缓存服务器"><span class="toc-number">2.1.</span> <span class="toc-text">Linux下搭建基于TCP通信的本地DNS缓存服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows下一劳永逸的强制TCP查询法"><span class="toc-number">2.2.</span> <span class="toc-text">Windows下一劳永逸的强制TCP查询法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤UDP污染结果的方法"><span class="toc-number">2.3.</span> <span class="toc-text">过滤UDP污染结果的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">2.4.</span> <span class="toc-text">其他方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/IT畅谈/" title="IT畅谈">IT畅谈<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/" title="Web与互联网">Web与互联网<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/Yarn/" title="Yarn">Yarn<sup>0</sup></a></li>
+		
+			<li><a href="/categories/手机移动平台/" title="手机移动平台">手机移动平台<sup>2</sup></a></li>
+		
+			<li><a href="/categories/知识积累/" title="知识积累">知识积累<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/" title="科研开发">科研开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/计算机科学/" title="计算机科学">计算机科学<sup>1</sup></a></li>
+		
+			<li><a href="/categories/调研/" title="调研">调研<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Dryad/" style="font-size: 10px;">Dryad</a> <a href="/tags/Hama/" style="font-size: 10px;">Hama</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Twister/" style="font-size: 10px;">Twister</a> <a href="/tags/UCAS/" style="font-size: 10px;">UCAS</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/apache2/" style="font-size: 10px;">apache2</a> <a href="/tags/chrome/" style="font-size: 20px;">chrome</a> <a href="/tags/dns/" style="font-size: 10px;">dns</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ics/" style="font-size: 10px;">ics</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mod-rewrite/" style="font-size: 10px;">mod_rewrite</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/weiphone/" style="font-size: 10px;">weiphone</a> <a href="/tags/win8/" style="font-size: 10px;">win8</a> <a href="/tags/人人/" style="font-size: 10px;">人人</a> <a href="/tags/反汇编/" style="font-size: 10px;">反汇编</a> <a href="/tags/帖子/" style="font-size: 10px;">帖子</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/最近任务/" style="font-size: 10px;">最近任务</a> <a href="/tags/污染/" style="font-size: 10px;">污染</a> <a href="/tags/清空/" style="font-size: 10px;">清空</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> I&#39;m a Ph.D candidate in ICT, CAS. <br/>
+			To graduate or not, that won&#39;t be a question but an enjoyed journey.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1873766777" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/xiaoyao9933" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://blog.chao.lu" target="_blank" title="Lu Chao">Lu Chao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaolublog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c629ff14d7629bd01c49b31857f7403' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,360 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>永久关闭Hiwifi极路由的网络诊断功能 | Chaolu&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Lu Chao">
+    
+    <meta name="description" content="最近在校园网使用极路由1经常出现网络诊断页面，判断是在校园网环境内自定义DNS水土不服。极路由系统提供了关闭网络诊断的功能键，但是很奇葩的事情是，极路由的开发人员竟大费周折为这个开关添加了一个计数器，也就是关闭7天后自动恢复打开。这无疑给校园网用户增添了很多烦恼，我作为擅于折腾的人，自然不允许这种事">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Chaolu&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Chaolu&#39;s blog" title="Chaolu&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chaolu&#39;s blog">Chaolu&#39;s blog</a></h1>
+				<h2 class="blog-motto">Further road, never stop...</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.chao.lu">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/06/永久关闭Hiwifi的网络诊断功能/" title="永久关闭Hiwifi极路由的网络诊断功能" itemprop="url">永久关闭Hiwifi极路由的网络诊断功能</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.chao.lu" title="Lu Chao">Lu Chao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-06T14:49:59.000Z" itemprop="datePublished">Sep 6 2014</time>
+    更新日期:<time datetime="2014-09-06T15:13:13.000Z" itemprop="dateModified">Sep 6 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>最近在校园网使用极路由1经常出现网络诊断页面，判断是在校园网环境内自定义DNS水土不服。极路由系统提供了关闭网络诊断的功能键，<br>但是很奇葩的事情是，极路由的开发人员竟大费周折为这个开关添加了一个计数器，也就是关闭7天后自动恢复打开。这无疑给校园网用户<br>增添了很多烦恼，我作为擅于折腾的人，自然不允许这种事情发生，那就hack下系统的代码吧。</p>
+<p>由于我的极路由已经root过了，我于是徜徉了一番极路由的文件系统，发现了网络诊断网页的动态页面代码，路径是：</p>
+<blockquote>
+<p>/usr/lib/lua/luci/view/admin_web/system/net_detect_1.htm</p>
+</blockquote>
+<p>这个文件里就是进行网络诊断的地方，源代码太多，我也不想细读，搜索开关按钮的id，速度找到了我关心的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inet_chk_switch</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> request_data = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span>(inet_chk_state == <span class="string">"on"</span>)&#123;</span><br><span class="line">       request_data = &#123;<span class="string">"cmd"</span>:<span class="string">"off"</span>,<span class="string">"timeout"</span>:<span class="number">168</span>&#125;;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(inet_chk_state == <span class="string">"off"</span>)&#123;</span><br><span class="line">       request_data = &#123;<span class="string">"cmd"</span>:<span class="string">"on"</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(request_data != <span class="literal">null</span>)&#123;</span><br><span class="line">        $.getJSON(<span class="string">"&lt;%=luci.dispatcher.build_url("</span>api<span class="string">", "</span>network<span class="string">","</span>inet_chk_switch<span class="string">")%&gt;"</span>,request_data,<span class="function"><span class="keyword">function</span>(<span class="params">rsp</span>)</span><br><span class="line">        </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> msg = rsp.msg;</span><br><span class="line">            <span class="keyword">var</span> code = rsp.code;</span><br><span class="line">            <span class="keyword">var</span> state = rsp.state;</span><br><span class="line">            <span class="keyword">if</span>(code == <span class="number">0</span> || code == <span class="string">"0"</span>)&#123;</span><br><span class="line">                inet_chk_state = request_data.cmd;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               <span class="keyword">if</span>(code == <span class="string">"99999"</span>)&#123;</span><br><span class="line">                alert(<span class="string">"需要登录后才能修改"</span>);</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            show_inet_chk_switch();</span><br><span class="line">        &#125;)</span><br><span class="line">        .fail(<span class="function"><span class="keyword">function</span>(<span class="params">rsp</span>)</span>&#123;</span><br><span class="line">            show_inet_chk_switch();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显，1217行的timeout的168即为7天的168小时。</p>
+<p>解决方案，自然是删掉这个timeout的key，不知道对应的api会不会设置默认值，有待进一步观察，我估计应该没有。</p>
+<p>另外，你可以删去122行已经写好的7日提示。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.chao.lu/2014/09/06/永久关闭Hiwifi的网络诊断功能/" data-title="永久关闭Hiwifi极路由的网络诊断功能 | Chaolu&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/21/UCASThesis-has-been-published/" title="UCASThesis has been released!---A LaTex template for UCAS graduates">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  UCASThesis has been released!---A LaTex template for UCAS graduates</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/04/Git-指令学习/"  title="Git 指令学习">
+ <strong>NEXT:</strong><br/> 
+ <span>Git 指令学习
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/IT畅谈/" title="IT畅谈">IT畅谈<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/" title="Web与互联网">Web与互联网<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/Yarn/" title="Yarn">Yarn<sup>0</sup></a></li>
+		
+			<li><a href="/categories/手机移动平台/" title="手机移动平台">手机移动平台<sup>2</sup></a></li>
+		
+			<li><a href="/categories/知识积累/" title="知识积累">知识积累<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/" title="科研开发">科研开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/计算机科学/" title="计算机科学">计算机科学<sup>1</sup></a></li>
+		
+			<li><a href="/categories/调研/" title="调研">调研<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Dryad/" style="font-size: 10px;">Dryad</a> <a href="/tags/Hama/" style="font-size: 10px;">Hama</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Twister/" style="font-size: 10px;">Twister</a> <a href="/tags/UCAS/" style="font-size: 10px;">UCAS</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/apache2/" style="font-size: 10px;">apache2</a> <a href="/tags/chrome/" style="font-size: 20px;">chrome</a> <a href="/tags/dns/" style="font-size: 10px;">dns</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ics/" style="font-size: 10px;">ics</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mod-rewrite/" style="font-size: 10px;">mod_rewrite</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/weiphone/" style="font-size: 10px;">weiphone</a> <a href="/tags/win8/" style="font-size: 10px;">win8</a> <a href="/tags/人人/" style="font-size: 10px;">人人</a> <a href="/tags/反汇编/" style="font-size: 10px;">反汇编</a> <a href="/tags/帖子/" style="font-size: 10px;">帖子</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/最近任务/" style="font-size: 10px;">最近任务</a> <a href="/tags/污染/" style="font-size: 10px;">污染</a> <a href="/tags/清空/" style="font-size: 10px;">清空</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> I&#39;m a Ph.D candidate in ICT, CAS. <br/>
+			To graduate or not, that won&#39;t be a question but an enjoyed journey.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1873766777" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/xiaoyao9933" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://blog.chao.lu" target="_blank" title="Lu Chao">Lu Chao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaolublog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c629ff14d7629bd01c49b31857f7403' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+
+
+  </body>
+</html>

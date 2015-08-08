@@ -1,0 +1,370 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hive TPC-DS数据集生成 | Chaolu&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Lu Chao">
+    
+    <meta name="description" content="TPC-DS官方http://www.tpc.org/information/current_specifications.asp
+下载hive-testbenchgit clone https://github.com/hortonworks/hive-testbench
+自动下载与编译tpc-d">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Chaolu&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Chaolu&#39;s blog" title="Chaolu&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chaolu&#39;s blog">Chaolu&#39;s blog</a></h1>
+				<h2 class="blog-motto">Further road, never stop...</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.chao.lu">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/19/Hive-TPC-DS数据集生成/" title="Hive TPC-DS数据集生成" itemprop="url">Hive TPC-DS数据集生成</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.chao.lu" title="Lu Chao">Lu Chao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-03-19T03:03:07.000Z" itemprop="datePublished">Mar 19 2015</time>
+    更新日期:<time datetime="2015-03-19T03:06:47.000Z" itemprop="dateModified">Mar 19 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TPC-DS官方"><span class="toc-number">1.</span> <span class="toc-text">TPC-DS官方</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载hive-testbench"><span class="toc-number">2.</span> <span class="toc-text">下载hive-testbench</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自动下载与编译tpc-ds的编译器"><span class="toc-number">3.</span> <span class="toc-text">自动下载与编译tpc-ds的编译器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置环境变量"><span class="toc-number">4.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成数据集"><span class="toc-number">5.</span> <span class="toc-text">生成数据集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行benchmark"><span class="toc-number">6.</span> <span class="toc-text">执行benchmark</span></a></li></ol>
+		</div>
+		
+		<h1 id="TPC-DS官方">TPC-DS官方</h1><p><a href="http://www.tpc.org/information/current_specifications.asp" target="_blank" rel="external">http://www.tpc.org/information/current_specifications.asp</a></p>
+<h1 id="下载hive-testbench">下载hive-testbench</h1><p>git clone <a href="https://github.com/hortonworks/hive-testbench" target="_blank" rel="external">https://github.com/hortonworks/hive-testbench</a></p>
+<h1 id="自动下载与编译tpc-ds的编译器">自动下载与编译tpc-ds的编译器</h1><pre><code>./tpcds-build.<span class="keyword">sh</span>
+</code></pre><p>此处它会下载TPC-DS的源代码，编译，并初始化metaStore。</p>
+<h1 id="设置环境变量">设置环境变量</h1><pre><code><span class="constant">HIVE_HOME</span>=<span class="regexp">/home/nbtest</span><span class="regexp">/develop/hive</span>-<span class="number">1.0</span>.<span class="number">0</span>/
+export <span class="constant">PATH</span>=<span class="variable">$HIVE_HOME</span>/<span class="symbol">bin:</span><span class="variable">$PATH</span>
+
+<span class="constant">HADOOP_HOME</span>=<span class="regexp">/home/nbtest</span><span class="regexp">/develop/hadoop</span>-<span class="number">2.6</span>.<span class="number">0</span>
+export <span class="constant">PATH</span>=<span class="variable">$HADOOP_HOME</span>/<span class="symbol">bin:</span><span class="variable">$HADOOP_HOME</span>/<span class="symbol">sbin:</span><span class="variable">$PATH</span>
+
+export <span class="constant">DEBUG_SCRIPT</span>=<span class="constant">ON</span>  <span class="comment">#输出生成数据时的日志</span>
+</code></pre><h1 id="生成数据集">生成数据集</h1><p>参见<br>Build 1 TB of TPC-DS data: ./tpcds-setup 1000<br>Build 1 TB of TPC-H data: ./tpch-setup 1000<br>Build 100 TB of TPC-DS data: ./tpcds-setup 100000<br>Build 30 TB of text formatted TPC-DS data: FORMAT=textfile ./tpcds-setup 30000<br>Build 30 TB of RCFile formatted TPC-DS data: FORMAT=rcfile ./tpcds-setup 30000</p>
+<p>如生成2GB的数据集</p>
+<pre><code>./tpcds-setup<span class="class">.sh</span> <span class="number">2</span>
+</code></pre><p>此过程非常漫长，生成text数据之后，会转换24个表至其他格式两遍（共48个hive作业），会生成以下类型的数据库<br>tpcds<em>text</em>${SCALE}   文本型的<br>tpcds_bin<em>partitioned</em>${FORMAT}_${SCALE}  默认ORC</p>
+<p>根据以上数据库命名规则，说明多种格式和大小的数据集是共存存放的，选用不同的数据库，即可切换不同的数据集。</p>
+<h1 id="执行benchmark">执行benchmark</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd sample-queries-tpcds&#10;hive -i testbench.settings&#10;hive&#62; use tpcds_bin_partitioned_orc_1000;&#10;hive&#62; source query55.sql;</span><br></pre></td></tr></table></figure>
+<p>如需自动化执行，可以在此处写如上一个sql脚本，通过hive -d 传递scale等参数，然后再通过外部脚本执行。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.chao.lu/2015/03/19/Hive-TPC-DS数据集生成/" data-title="Hive TPC-DS数据集生成 | Chaolu&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/08/hello-world/" title="Hello World">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Hello World</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/19/MPI的同步阻塞问题/"  title="MPI的同步阻塞问题">
+ <strong>NEXT:</strong><br/> 
+ <span>MPI的同步阻塞问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TPC-DS官方"><span class="toc-number">1.</span> <span class="toc-text">TPC-DS官方</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载hive-testbench"><span class="toc-number">2.</span> <span class="toc-text">下载hive-testbench</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自动下载与编译tpc-ds的编译器"><span class="toc-number">3.</span> <span class="toc-text">自动下载与编译tpc-ds的编译器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置环境变量"><span class="toc-number">4.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成数据集"><span class="toc-number">5.</span> <span class="toc-text">生成数据集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行benchmark"><span class="toc-number">6.</span> <span class="toc-text">执行benchmark</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/IT畅谈/" title="IT畅谈">IT畅谈<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/" title="Web与互联网">Web与互联网<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/Yarn/" title="Yarn">Yarn<sup>0</sup></a></li>
+		
+			<li><a href="/categories/手机移动平台/" title="手机移动平台">手机移动平台<sup>2</sup></a></li>
+		
+			<li><a href="/categories/知识积累/" title="知识积累">知识积累<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/" title="科研开发">科研开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/计算机科学/" title="计算机科学">计算机科学<sup>1</sup></a></li>
+		
+			<li><a href="/categories/调研/" title="调研">调研<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Dryad/" style="font-size: 10px;">Dryad</a> <a href="/tags/Hama/" style="font-size: 10px;">Hama</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Twister/" style="font-size: 10px;">Twister</a> <a href="/tags/UCAS/" style="font-size: 10px;">UCAS</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/apache2/" style="font-size: 10px;">apache2</a> <a href="/tags/chrome/" style="font-size: 20px;">chrome</a> <a href="/tags/dns/" style="font-size: 10px;">dns</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ics/" style="font-size: 10px;">ics</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mod-rewrite/" style="font-size: 10px;">mod_rewrite</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/weiphone/" style="font-size: 10px;">weiphone</a> <a href="/tags/win8/" style="font-size: 10px;">win8</a> <a href="/tags/人人/" style="font-size: 10px;">人人</a> <a href="/tags/反汇编/" style="font-size: 10px;">反汇编</a> <a href="/tags/帖子/" style="font-size: 10px;">帖子</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/最近任务/" style="font-size: 10px;">最近任务</a> <a href="/tags/污染/" style="font-size: 10px;">污染</a> <a href="/tags/清空/" style="font-size: 10px;">清空</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> I&#39;m a Ph.D candidate in ICT, CAS. <br/>
+			To graduate or not, that won&#39;t be a question but an enjoyed journey.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1873766777" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/xiaoyao9933" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://blog.chao.lu" target="_blank" title="Lu Chao">Lu Chao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaolublog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c629ff14d7629bd01c49b31857f7403' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+
+
+  </body>
+</html>

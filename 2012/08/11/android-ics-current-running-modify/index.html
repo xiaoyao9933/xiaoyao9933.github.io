@@ -1,0 +1,390 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序 | Chaolu&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Lu Chao">
+    
+    <meta name="description" content="引言在Android 4.0+的系统里，长按住HOME键，可以激活出“最近任务列表”，非常fashion，手一拽动，程序就会被彻底关闭。本来这个功能非常好，但是对于中国人的使用习惯来说，我们仿佛更适应windows tab或者或者Symbian的任务切换。也就是说我们更喜欢任务界面里显示的都是真正运行的程序，而不是显示很久前已经关闭的最近运行程序，让我们重新花费大量时间去运行。本文将从源代码修改和反汇编修改两种方法，讲解修改。只要理解了程序的源代码，其实修改起来并不难，希望以后Android 4.0的ROM开发者们，都可以采用我这一修改方法，让人们更舒适的使用Android。">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Chaolu&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Chaolu&#39;s blog" title="Chaolu&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chaolu&#39;s blog">Chaolu&#39;s blog</a></h1>
+				<h2 class="blog-motto">Further road, never stop...</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.chao.lu">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2012/08/11/android-ics-current-running-modify/" title="如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序" itemprop="url">如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.chao.lu" title="Lu Chao">Lu Chao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2012-08-11T05:56:22.000Z" itemprop="datePublished">Aug 11 2012</time>
+    更新日期:<time datetime="2014-09-04T02:03:47.000Z" itemprop="dateModified">Sep 4 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码分析及修改法"><span class="toc-number">2.</span> <span class="toc-text">源代码分析及修改法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反编译及回编译法"><span class="toc-number">3.</span> <span class="toc-text">反编译及回编译法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊情况"><span class="toc-number">4.</span> <span class="toc-text">特殊情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#终语"><span class="toc-number">5.</span> <span class="toc-text">终语</span></a></li></ol>
+		</div>
+		
+		<h2 id="引言">引言</h2><p>在Android 4.0+的系统里，长按住HOME键，可以激活出“最近任务列表”，非常fashion，手一拽动，程序就会被彻底关闭。本来这个功能非常好，但是对于中国人的使用习惯来说，我们仿佛更适应windows tab或者或者Symbian的任务切换。也就是说我们更喜欢任务界面里显示的都是真正运行的程序，而不是显示很久前已经关闭的最近运行程序，让我们重新花费大量时间去运行。本文将从源代码修改和反汇编修改两种方法，讲解修改。只要理解了程序的源代码，其实修改起来并不难，希望以后Android 4.0的ROM开发者们，都可以采用我这一修改方法，让人们更舒适的使用Android。</p>
+<a id="more"></a>
+<h2 id="源代码分析及修改法">源代码分析及修改法</h2><p>我找到4.0.4的一份<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentsPanelView.java?av=f" target="_blank" rel="external">源代码</a>，在这个主Activity的RecentsPanelView.java类里，我们可以追踪show（）以后的各种调用，其中最明显的一处便是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(<span class="keyword">boolean</span> show, <span class="keyword">boolean</span> animate,</span><br><span class="line">ArrayList recentTaskDescriptions)</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (show) &#123;</span><br><span class="line"><span class="comment">// Need to update list of recent apps before we set visibility so this view's</span></span><br><span class="line">refreshRecentTasksList(recentTaskDescriptions);</span><br></pre></td></tr></table></figure>
+<p>其调用了 <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentsPanelView.java#RecentsPanelView.refreshRecentTasksList%28java.util.ArrayList%29" target="_blank" rel="external">refreshRecentTasksList</a>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshRecentTasksList</span><span class="params">(ArrayList recentTasksList)</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (mRecentTasksDirty) &#123;</span><br><span class="line"><span class="keyword">if</span> (recentTasksList != <span class="keyword">null</span>) &#123;</span><br><span class="line">mRecentTaskDescriptions = recentTasksList;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">mRecentTaskDescriptions = mRecentTasksLoader.getRecentTasks();</span><br><span class="line">&#125;</span><br><span class="line">mListAdapter.notifyDataSetInvalidated();</span><br><span class="line">updateUiElements(getResources().getConfiguration());</span><br><span class="line">mRecentTasksDirty = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法里，其又调用了<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.4_r1.2/com/android/systemui/recent/RecentTasksLoader.java#RecentTasksLoader.getRecentTasks%28%29" target="_blank" rel="external">getRecentTasks()</a>函数在RecentTasksLoader.java中，这就是我们要修改的地方,我简单注释下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// return a snapshot of the current list of recent apps</span></span><br><span class="line"><span class="function">ArrayList <span class="title">getRecentTasks</span><span class="params">()</span> </span>&#123;</span><br><span class="line">cacelLoadingThumbnails();</span><br><span class="line">ArrayList tasks = <span class="keyword">new</span> ArrayList&lt;TaskDescription&gt;();</span><br><span class="line"><span class="keyword">final</span> PackageManager pm = mContext.getPackageManager();</span><br><span class="line"><span class="keyword">final</span> ActivityManager am = (ActivityManager)<span class="comment">//调取服务</span></span><br><span class="line">mContext.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line"><span class="keyword">final</span> List&lt;ActivityManager.RecentTaskInfo&gt; recentTasks =</span><br><span class="line">am.getRecentTasks(MAX_TASKS, ActivityManager.RECENT_IGNORE_UNAVAILABLE);<span class="comment">//调取最近活动列表</span></span><br><span class="line">ActivityInfo homeInfo = <span class="keyword">new</span> Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)</span><br><span class="line">.resolveActivityInfo(pm, <span class="number">0</span>);</span><br><span class="line">HashSet&lt;Integer&gt; recentTasksToKeepInCache = <span class="keyword">new</span> HashSet&lt;Integer&gt;();<span class="comment">//最前端的任务不显示</span></span><br><span class="line"><span class="keyword">int</span> numTasks = recentTasks.size();</span><br><span class="line"><span class="comment">// skip the first task - assume it's either the home screen or the current activity.</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line">recentTasksToKeepInCache.add(recentTasks.get(<span class="number">0</span>).persistentId);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = first, index = <span class="number">0</span>; i &lt; numTasks &amp;&amp; (index &lt; MAX_TASKS); ++i) &#123;<span class="comment">//开始轮询</span></span><br><span class="line"><span class="keyword">final</span> ActivityManager.RecentTaskInfo recentInfo = recentTasks.get(i);<span class="comment">//获取单个taskinfo</span></span><br><span class="line"><span class="comment">//在这里可以添加代码</span></span><br><span class="line">TaskDescription item = createTaskDescription(recentInfo.id,</span><br><span class="line">recentInfo.persistentId, recentInfo.baseIntent,</span><br><span class="line">recentInfo.origActivity, recentInfo.description, homeInfo);</span><br><span class="line"><span class="keyword">if</span> (item != <span class="keyword">null</span>) &#123;</span><br><span class="line">tasks.add(item);</span><br><span class="line">++index;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// when we're not using the TaskDescription cache, we load the thumbnails in the</span></span><br><span class="line"><span class="comment">// background</span></span><br><span class="line">loadThumbnailsInBackground(<span class="keyword">new</span> ArrayList&lt;TaskDescription&gt;(tasks));<span class="comment">//读缩略图</span></span><br><span class="line"><span class="keyword">return</span> tasks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以我们为了剔除掉已经被关闭掉的程序，只需在轮询处加入代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(recentInfo.id＜<span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，我们在这里判断下recentInfo.id的正负，我们知道，不运行的程序，id号会为 -1,我们踢掉这些代码就可以了。</p>
+<h2 id="反编译及回编译法">反编译及回编译法</h2><p>上面修改源代码的方法虽然看似简单，但实际上，很多人也不会编译rom，编起来耗时又多，而且我们也不知道自己的ROM是不是已经被第三方修改过很多了，反汇编法还是比较适合主流。具体反编译工具的使用方法，我只能是简单介绍了，我的是ubuntu环境下，先配置好jre环境（windows下也差不多，配置好java 环境，加个 java+命令就执行了）。下载好baksmali，和smali两个工具,假设程序分别为<a href="http://code.google.com/p/smali/downloads/list" target="_blank" rel="external">baksmali.jar，smali.jar</a>。smali语法参见：<a href="http://www.blogjava.net/midea0978/archive/2012/01/04/367847.html" target="_blank" rel="external">Dalvik opcodes</a>，下面是CM9的改法。</p>
+<ol>
+<li>把手机下的/System/app/SystemUI.apk程序想办法搞到电脑上来，方法很多。</li>
+<li>给baksmali，和smali两个工具赋权，+x就可以了,大概如下chmod +x baksmali.jar    </li>
+<li>对SystemUI.apk解包，用解压工具打开，拖出里面的classes.dex到同一目录。</li>
+<li>反汇编  ./baksmali.jar classes.dex -x -o classes</li>
+<li>打开classes目录下的com/android/systemui/recent/RecentTasksLoader.smali文件</li>
+<li>搜索这段代码 iget v2, v15, Landroid/app/ActivityManager$RecentTaskInfo;-&gt;id:I</li>
+<li>在其下行加入：if-ltz v2, :cond_7c    </li>
+<li>（上面的那个cond_7c是单次循环结束的入口，可能会因机而异，您可以自己搜索：add-int/lit8 v10, v10, 0x1这句，找到入口，替换cond_7c即可）    </li>
+<li>回编译: ./smali.jar classes/ -o classes.dex</li>
+<li>把回编译的classes.dex拖回原来的SystemUI.apk替换即可。</li>
+<li>想办法把SystemUI.apk放回手机，记得赋权rw-r–r-。</li>
+<li>重启手机后，看看彻底关闭一个程序后，是不是任务列表里就没有了，大功告成。</li>
+</ol>
+<h2 id="特殊情况">特殊情况</h2><ol>
+<li>有的ROM天生SystemUI.apk就被分割成odex了，这种apk里是没有classes.dex的，所以你需要根据相关教程将odex合并后再弄</li>
+<li><strong>cm10，也就是JELLY BEAN，4.1.1由于源代码做了较大改动，处理获取任务列表的地方在<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.1.1_r1/com/android/systemui/recent/RecentTasksLoader.java?av=f" target="_blank" rel="external">这里</a>loadTasksInBackground()这个函数里，这也可见JB之所以较顺滑的原因就是，很多任务挪到了背景缓存，背景执行。改的方法类似4.0的，反汇编的方法稍有变动：修改的文件将是 RecentTasksLoader$1.smali ，搜索这句 iget v2, v0, Landroid/app/ActivityManager$RecentTaskInfo;-&gt;id:I ，下面添加这句，if-ltz v2,:cond_e6  。其他都一样。</strong></li>
+</ol>
+<h2 id="终语">终语</h2><p>本文可能不适合新手自己修改，但是可以给rom定制者提供一个好的方法。我下一步的计划是添加一个新的手势，如向上滑动，关闭全部程序，欢迎继续关注我的博客。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">android</a><a href="/tags/ics/">ics</a><a href="/tags/反汇编/">反汇编</a><a href="/tags/最近任务/">最近任务</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/手机移动平台/">手机移动平台</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.chao.lu/2012/08/11/android-ics-current-running-modify/" data-title="如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序 | Chaolu&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2012/10/06/python-sci-computing/" title="用Python做科学计算 (+网络分析)">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  用Python做科学计算 (+网络分析)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2012/08/07/xiaoyao9933-posts-on-wephone/"  title="我的威锋网发帖索引">
+ <strong>NEXT:</strong><br/> 
+ <span>我的威锋网发帖索引
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码分析及修改法"><span class="toc-number">2.</span> <span class="toc-text">源代码分析及修改法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反编译及回编译法"><span class="toc-number">3.</span> <span class="toc-text">反编译及回编译法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊情况"><span class="toc-number">4.</span> <span class="toc-text">特殊情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#终语"><span class="toc-number">5.</span> <span class="toc-text">终语</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/IT畅谈/" title="IT畅谈">IT畅谈<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/" title="Web与互联网">Web与互联网<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/Yarn/" title="Yarn">Yarn<sup>0</sup></a></li>
+		
+			<li><a href="/categories/手机移动平台/" title="手机移动平台">手机移动平台<sup>2</sup></a></li>
+		
+			<li><a href="/categories/知识积累/" title="知识积累">知识积累<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/" title="科研开发">科研开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/计算机科学/" title="计算机科学">计算机科学<sup>1</sup></a></li>
+		
+			<li><a href="/categories/调研/" title="调研">调研<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Dryad/" style="font-size: 10px;">Dryad</a> <a href="/tags/Hama/" style="font-size: 10px;">Hama</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Twister/" style="font-size: 10px;">Twister</a> <a href="/tags/UCAS/" style="font-size: 10px;">UCAS</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/apache2/" style="font-size: 10px;">apache2</a> <a href="/tags/chrome/" style="font-size: 20px;">chrome</a> <a href="/tags/dns/" style="font-size: 10px;">dns</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ics/" style="font-size: 10px;">ics</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mod-rewrite/" style="font-size: 10px;">mod_rewrite</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/weiphone/" style="font-size: 10px;">weiphone</a> <a href="/tags/win8/" style="font-size: 10px;">win8</a> <a href="/tags/人人/" style="font-size: 10px;">人人</a> <a href="/tags/反汇编/" style="font-size: 10px;">反汇编</a> <a href="/tags/帖子/" style="font-size: 10px;">帖子</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/最近任务/" style="font-size: 10px;">最近任务</a> <a href="/tags/污染/" style="font-size: 10px;">污染</a> <a href="/tags/清空/" style="font-size: 10px;">清空</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> I&#39;m a Ph.D candidate in ICT, CAS. <br/>
+			To graduate or not, that won&#39;t be a question but an enjoyed journey.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1873766777" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/xiaoyao9933" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://blog.chao.lu" target="_blank" title="Lu Chao">Lu Chao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaolublog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c629ff14d7629bd01c49b31857f7403' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+
+
+  </body>
+</html>

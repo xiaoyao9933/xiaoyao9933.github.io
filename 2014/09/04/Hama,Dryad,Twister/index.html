@@ -1,0 +1,408 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hama，Dryad，Twister | Chaolu&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Lu Chao">
+    
+    <meta name="description" content="Hama
+Hama is a pregel-like distributed computing framework based on BSP.
+Be compatible with existing HDFS cluster, or any FileSystem and Database in t">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Chaolu&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Chaolu&#39;s blog" title="Chaolu&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chaolu&#39;s blog">Chaolu&#39;s blog</a></h1>
+				<h2 class="blog-motto">Further road, never stop...</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.chao.lu">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/04/Hama,Dryad,Twister/" title="Hama，Dryad，Twister" itemprop="url">Hama，Dryad，Twister</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.chao.lu" title="Lu Chao">Lu Chao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-04T02:30:43.000Z" itemprop="datePublished">Sep 4 2014</time>
+    更新日期:<time datetime="2014-09-04T02:36:09.000Z" itemprop="dateModified">Sep 4 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hama"><span class="toc-number">1.</span> <span class="toc-text">Hama</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dryad"><span class="toc-number">2.</span> <span class="toc-text">Dryad</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Twister[6]"><span class="toc-number">3.</span> <span class="toc-text">Twister[6]</span></a></li></ol>
+		</div>
+		
+		<h1 id="Hama">Hama</h1><ul>
+<li>Hama is a pregel-like distributed computing framework based on BSP.</li>
+<li>Be compatible with existing HDFS cluster, or any FileSystem and Database in the future.</li>
+<li>Be efficient for massive matrix and graph computations using MapReduce and BSP.[1]</li>
+<li>Primitives offered by Hama can be applied to various applications that require matrix and graph computations.[2]</li>
+<li>Hama provides a simple computation engine interface, which can plug in and out Mapreduce, BSP, Dryad freely.[2]</li>
+</ul>
+<p>In order to understand the basic API of Hama, a simple example will help you to understand the concepts of the BSP computing model.<br>This example will estimate the PI value using montecarlo simulation.[3]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Override&#10;   public void bsp(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException, SyncException, InterruptedException &#123;&#10;&#10;     int in = 0, out = 0;&#10;     for (int i = 0; i &#60; iterations; i++) &#123;&#10;       double x = 2.0 * Math.random() - 1.0, y = 2.0 * Math.random() - 1.0;&#10;       if ((Math.sqrt(x * x + y * y) &#60; 1.0)) &#123;&#10;         in++;&#10;       &#125; else &#123;&#10;         out++;&#10;       &#125;&#10;     &#125;&#10;&#10;     double data = 4.0 * (double) in / (double) iterations;&#10;     DoubleMessage estimate = new DoubleMessage(peer.getPeerName(), data);&#10;&#10;     peer.send(masterTask, estimate);&#10;     peer.sync();&#10;   &#125;&#10;&#10;   @Override&#10;   public void setup(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException &#123;&#10;     // Choose one as a master&#10;     this.masterTask = peer.getPeerName(peer.getNumPeers() / 2);&#10;   &#125;&#10;&#10;   public void cleanup(&#10;       BSPPeer&#60;NullWritable, NullWritable, Text, DoubleWritable&#62; peer)&#10;       throws IOException &#123;&#10;     if (peer.getPeerName().equals(masterTask)) &#123;&#10;       double pi = 0.0;&#10;       int numPeers = peer.getNumCurrentMessages();&#10;       DoubleMessage received;&#10;       while ((received = (DoubleMessage) peer.getCurrentMessage()) != null) &#123;&#10;         pi += received.getData();&#10;       &#125;&#10;&#10;       pi = pi / numPeers;&#10;       peer&#10;           .write(new Text(&#34;Estimated value of PI is&#34;), new DoubleWritable(pi));&#10;     &#125;&#10;   &#125;&#10; &#125;</span><br></pre></td></tr></table></figure>
+<p>The important steps are:</p>
+<ol>
+<li>Overwrite the bsp method of BSP class.</li>
+<li>Call send(), and communicate the other supersteps.</li>
+<li>Call sync(), and wait for other supersteps to leave the barriers together.</li>
+<li>Call getCurrentMessage() to receive the message.</li>
+</ol>
+<h1 id="Dryad">Dryad</h1><ul>
+<li>Dryad is a general-purpose distributed execution engine for coarse-grain data-parallel applications.</li>
+<li>Dryad applications are driven by the directed acyclic graph(DAG) model.</li>
+<li>DAG’s channels between vertices defines the dataflow of the application, and vertices are sequential programs.</li>
+<li>Scheduling of the computational vertices on the available hardware is handled by the Dryad runtime, without any explicit intervention by the developer of the application or administrator of the network.[4]</li>
+<li>Dryad supports multiple different data transport mechanisms between computation vertices and explicit dataflow graph construction and refinement[5]</li>
+<li>Dryad has built a simpler simpler, higher-level programming abstractions for specific application domains on top of Dryad, and it’s easy to learn.[5]</li>
+<li>Dryad supports a automatic fault-tolerant mechnisms.</li>
+</ul>
+<h1 id="Twister[6]">Twister[6]</h1><ul>
+<li>Distinction on static and variable data</li>
+<li>Configurable long running (cacheable) map/reduce tasks</li>
+<li>Pub/sub messaging based communication/data transfers</li>
+<li>Efficient support for Iterative MapReduce computations (extremely faster than Hadoop or Dryad/DryadLINQ)</li>
+<li>Combine phase to collect all reduce outputs</li>
+<li>Data access via local disks</li>
+<li>Lightweight (~5600 lines of Java code)</li>
+<li>Support for typical MapReduce computations</li>
+<li>Tools to manage data</li>
+</ul>
+<p>Take pagerank for an example:<br>The key code of mapreduce iteration can be listed as below:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;public void driveMapReduce() throws Exception &#123;&#10;long beforeTime = System.currentTimeMillis();&#10;&#10;// JobConfigurations&#10;JobConf jobConf = new JobConf(&#34;pagerank-map-reduce&#34;&#10;+ uuidGen.generateTimeBasedUUID());&#10;&#10;jobConf.setMapperClass(PageRankMapTask.class);&#10;jobConf.setReducerClass(PageRankReduceTask.class);&#10;jobConf.setCombinerClass(PageRankCombiner.class);&#10;jobConf.setNumMapTasks(this.numMapTasks);&#10;jobConf.setNumReduceTasks(this.numReduceTasks);&#10;//jobConf.setFaultTolerance();&#10;&#10;TwisterDriver driver = new TwisterDriver(jobConf);&#10;driver.configureMaps(this.partitionFile);&#10;// divide the static input data for map tasks,&#10;// input data is the adjacency matrix for urls&#10;&#10;DoubleVectorData tmpDvd = new DoubleVectorData();&#10;DoubleVectorData tmpCompressedDvd;&#10;DoubleVectorData newDvd = new DoubleVectorData();&#10;DoubleVectorData newCompressedDvd = new DoubleVectorData();&#10;&#10;double[][] initPageRanks = new double[1][2];&#10;initPageRanks[0][0] = this.numUrls; // the num of all urls&#10;initPageRanks[0][1] = 1.0; // the sum of prob of all urls = 1.0&#10;tmpCompressedDvd = new DoubleVectorData(initPageRanks, 1, 2);&#10;&#10;&#10;double totalError = 0; // the error between current and previous rank values&#10;double tolerance = 1E-8; // the threshold value that determine converge condition&#10;int loopCount = 0;&#10;TwisterMonitor monitor = null;&#10;boolean complete = false;&#10;&#10;while (!complete) &#123;&#10;// start the pagerank map reduce process&#10;monitor = driver.runMapReduceBCast(new BytesValue(tmpCompressedDvd.getBytes()));&#10;monitor.monitorTillCompletion();&#10;newCompressedDvd = ((PageRankCombiner) driver.getCurrentCombiner()).getResults(); // get the result of&#10;newDvd = decompress(newCompressedDvd); // decompress the compressed&#10;tmpDvd = decompress(tmpCompressedDvd);&#10;totalError = getError(tmpDvd, newDvd); // get the difference between&#10;System.out.println(&#34;[log] Error between current and previous rank values:&#34;&#10;+ totalError);&#10;if (totalError &#60; tolerance) &#123;&#10;complete = true;&#10;&#125;&#10;tmpCompressedDvd = newCompressedDvd;&#10;loopCount++;&#10;&#125;&#10;System.out.println(&#34;[log] The error of rank values converged, total loop count:&#34;&#10;+ loopCount);&#10;double timeInSeconds = ((double) (System.currentTimeMillis() - beforeTime)) / 1000;&#10;    .......&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>In this part, for a developer</p>
+<ol>
+<li>A TwisterDriver should be defined.</li>
+<li>Use driver’s runMapReduceBCast() method to run a loop of mapreduce.</li>
+<li>Use  monitorTillCompletion() to synchronize the mapreduce execution.</li>
+<li>Obtain the combiner by using getCurrentCombiner(), then results can be listed.</li>
+<li>Converged condition is implemented by developers manully.</li>
+</ol>
+<p>[1] BSP vs MapReduce<br>[2] Hama: An efficient Matrix Computation with the Mapreduce Framwork.<br>[3] <a href="http://wiki.apache.org/hama/PiEstimator" target="_blank" rel="external">http://wiki.apache.org/hama/PiEstimator</a><br>[4] <a href="http://en.wikipedia.org/wiki/Dryad_(programming" target="_blank" rel="external">http://en.wikipedia.org/wiki/Dryad_(programming</a>)<br>[5] Dryad: Distributed Data-Parallel Programs from Sequential Building Blocks<br>[6] <a href="http://www.iterativemapreduce.org" target="_blank" rel="external">http://www.iterativemapreduce.org</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Dryad/">Dryad</a><a href="/tags/Hama/">Hama</a><a href="/tags/Twister/">Twister</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/调研/">调研</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.chao.lu/2014/09/04/Hama,Dryad,Twister/" data-title="Hama，Dryad，Twister | Chaolu&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/04/Git-指令学习/" title="Git 指令学习">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Git 指令学习</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/31/Hello-Hexo--博客迁移/"  title="Hello Hexo- 博客迁移">
+ <strong>NEXT:</strong><br/> 
+ <span>Hello Hexo- 博客迁移
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hama"><span class="toc-number">1.</span> <span class="toc-text">Hama</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dryad"><span class="toc-number">2.</span> <span class="toc-text">Dryad</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Twister[6]"><span class="toc-number">3.</span> <span class="toc-text">Twister[6]</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/IT畅谈/" title="IT畅谈">IT畅谈<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/" title="Web与互联网">Web与互联网<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Web与互联网/Yarn/" title="Yarn">Yarn<sup>0</sup></a></li>
+		
+			<li><a href="/categories/手机移动平台/" title="手机移动平台">手机移动平台<sup>2</sup></a></li>
+		
+			<li><a href="/categories/知识积累/" title="知识积累">知识积累<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/" title="科研开发">科研开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/科研开发/计算机科学/" title="计算机科学">计算机科学<sup>1</sup></a></li>
+		
+			<li><a href="/categories/调研/" title="调研">调研<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Dryad/" style="font-size: 10px;">Dryad</a> <a href="/tags/Hama/" style="font-size: 10px;">Hama</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Twister/" style="font-size: 10px;">Twister</a> <a href="/tags/UCAS/" style="font-size: 10px;">UCAS</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/apache2/" style="font-size: 10px;">apache2</a> <a href="/tags/chrome/" style="font-size: 20px;">chrome</a> <a href="/tags/dns/" style="font-size: 10px;">dns</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ics/" style="font-size: 10px;">ics</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mod-rewrite/" style="font-size: 10px;">mod_rewrite</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/weiphone/" style="font-size: 10px;">weiphone</a> <a href="/tags/win8/" style="font-size: 10px;">win8</a> <a href="/tags/人人/" style="font-size: 10px;">人人</a> <a href="/tags/反汇编/" style="font-size: 10px;">反汇编</a> <a href="/tags/帖子/" style="font-size: 10px;">帖子</a> <a href="/tags/插件/" style="font-size: 10px;">插件</a> <a href="/tags/最近任务/" style="font-size: 10px;">最近任务</a> <a href="/tags/污染/" style="font-size: 10px;">污染</a> <a href="/tags/清空/" style="font-size: 10px;">清空</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> I&#39;m a Ph.D candidate in ICT, CAS. <br/>
+			To graduate or not, that won&#39;t be a question but an enjoyed journey.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1873766777" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/xiaoyao9933" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://blog.chao.lu" target="_blank" title="Lu Chao">Lu Chao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaolublog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c629ff14d7629bd01c49b31857f7403' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+
+
+  </body>
+</html>
