@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2015/03/19/MPI%E7%9A%84%E5%90%8C%E6%AD%A5%E9%98%BB%E5%A1%9E%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2015-04-01T02:21:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>MPI的同步阻塞问题</title>
+        <pubTime>2015-03-19T02:52:38.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2015/03/19/Hive-TPC-DS%E6%95%B0%E6%8D%AE%E9%9B%86%E7%94%9F%E6%88%90/</loc>
+    <lastmod>2015-03-19T03:06:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hive TPC-DS数据集生成</title>
+        <pubTime>2015-03-19T03:03:07.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2014/09/21/UCASThesis-has-been-published/</loc>
+    <lastmod>2014-09-21T01:46:32.000Z</lastmod>
+    <data>
+        <display>
+        <title>UCASThesis has been released!---A LaTex template for UCAS graduates</title>
+        <pubTime>2014-09-21T01:34:27.000Z</pubTime>
+        
+        <tag>LaTex </tag>
+         
+        <tag>UCAS </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://blog.chao.lu/2014/09/06/%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%ADHiwifi%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%8A%E6%96%AD%E5%8A%9F%E8%83%BD/</loc>
+    <lastmod>2014-09-06T15:13:13.000Z</lastmod>
+    <data>
+        <display>
+        <title>永久关闭Hiwifi极路由的网络诊断功能</title>
+        <pubTime>2014-09-06T14:49:59.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2014/09/04/Git-%E6%8C%87%E4%BB%A4%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2014-09-04T02:39:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>Git 指令学习</title>
+        <pubTime>2014-09-04T02:31:05.000Z</pubTime>
+        
+        <tag>git </tag>
+         
+         
+           
+             
+              <breadCrumb title="知识积累" url="http://blog.chao.lu/categories/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2014/09/04/Hama,Dryad,Twister/</loc>
+    <lastmod>2014-09-04T02:36:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hama，Dryad，Twister</title>
+        <pubTime>2014-09-04T02:30:43.000Z</pubTime>
+        
+        <tag>Dryad </tag>
+         
+        <tag>Hama </tag>
+         
+        <tag>Twister </tag>
+         
+         
+           
+             
+              <breadCrumb title="调研" url="http://blog.chao.lu/categories/%E8%B0%83%E7%A0%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2012/08/02/ubuntu-apache2-mod_rewrite_start/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu下Apache2的mod_rewrite模块的开启</title>
+        <pubTime>2012-08-02T06:06:55.000Z</pubTime>
+        
+        <tag>apache2 </tag>
+         
+        <tag>mod_rewrite </tag>
+         
+        <tag>ubuntu </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web与互联网" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2012/08/07/xiaoyao9933-posts-on-wephone/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>我的威锋网发帖索引</title>
+        <pubTime>2012-08-06T17:56:58.000Z</pubTime>
+        
+        <tag>weiphone </tag>
+         
+        <tag>帖子 </tag>
+         
+         
+           
+             
+              <breadCrumb title="手机移动平台" url="http://blog.chao.lu/categories/%E6%89%8B%E6%9C%BA%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%8F%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2013/01/11/renrenclear/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>人人网清空器 1.1 发布了～</title>
+        <pubTime>2013-01-11T04:48:32.000Z</pubTime>
+        
+        <tag>chrome </tag>
+         
+        <tag>人人 </tag>
+         
+        <tag>插件 </tag>
+         
+        <tag>清空 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web与互联网" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+          
+             
+              <breadCrumb title="JavaScript" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2012/08/05/see-from-win8/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>由Win8即将发布想到的，浅谈PC与移动平台的消费者需求</title>
+        <pubTime>2012-08-04T18:12:40.000Z</pubTime>
+        
+        <tag>android </tag>
+         
+        <tag>ios </tag>
+         
+        <tag>win8 </tag>
+         
+         
+           
+             
+              <breadCrumb title="IT畅谈" url="http://blog.chao.lu/categories/IT%E7%95%85%E8%B0%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2013/01/11/chrome-plugin-content-js-original-js-access/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>Chrome插件Content js对原网页空间中的变量和函数的访问</title>
+        <pubTime>2013-01-11T05:16:55.000Z</pubTime>
+        
+        <tag>chrome </tag>
+         
+        <tag>js </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web与互联网" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+          
+             
+              <breadCrumb title="JavaScript" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2014/07/31/Hello-Hexo--%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hello Hexo- 博客迁移</title>
+        <pubTime>2014-07-31T07:33:13.000Z</pubTime>
+        
+        <tag>hexo </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2012/10/06/python-sci-computing/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>用Python做科学计算 (+网络分析)</title>
+        <pubTime>2012-10-06T09:19:58.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="科研开发" url="http://blog.chao.lu/categories/%E7%A7%91%E7%A0%94%E5%BC%80%E5%8F%91/"/>
+          
+             
+              <breadCrumb title="计算机科学" url="http://blog.chao.lu/categories/%E7%A7%91%E7%A0%94%E5%BC%80%E5%8F%91/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.chao.lu/2013/01/22/anti-dns-pollute/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>有效防止DNS污染的方法一览</title>
+        <pubTime>2013-01-21T19:08:34.000Z</pubTime>
+        
+        <tag>dns </tag>
+         
+        <tag>tcp </tag>
+         
+        <tag>污染 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web与互联网" url="http://blog.chao.lu/categories/Web%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://blog.chao.lu/2012/08/11/android-ics-current-running-modify/</loc>
+    <lastmod>2014-09-04T02:03:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何让你的Android 4.0 ICS/JB最近任务界面只显示真正运行的程序</title>
+        <pubTime>2012-08-11T05:56:22.000Z</pubTime>
+        
+        <tag>android </tag>
+         
+        <tag>ics </tag>
+         
+        <tag>反汇编 </tag>
+         
+        <tag>最近任务 </tag>
+         
+         
+           
+             
+              <breadCrumb title="手机移动平台" url="http://blog.chao.lu/categories/%E6%89%8B%E6%9C%BA%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%8F%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
