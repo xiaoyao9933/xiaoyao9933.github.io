@@ -3,4 +3,4 @@ User-agent: *
 
 Allow: /
 
-Sitemap: http://blog.chao.lu/sitemap.xml
+Sitemap: http://blog.chao.lu/baidusitemap.xml
